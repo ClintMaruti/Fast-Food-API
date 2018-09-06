@@ -1,6 +1,6 @@
 # Fast-Food-Fast API
 
-[![Build Status](https://travis-ci.org/ClintPy/Fast-Food-API.svg?branch=master)](https://travis-ci.org/ClintPy)
+[![Build Status](https://travis-ci.org/ClintPy/Fast-Food-API.svg?branch=ft-Endpoint-to-Place-a-new-order-for-food-160245824)](https://travis-ci.org/ClintPy)
 
 [![Coverage Status](https://coveralls.io/repos/github/ClintPy/Fast-Food-API/badge.svg?branch=master)](https://coveralls.io/github/ClintPy/Fast-Food-API?branch=master)
 
