@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/ClintPy/Fast-Food-API.svg?branch=bg-Fix-Bugs-endpoints-111504508-%23160333199)](https://travis-ci.org/ClintPy)
 
+[![Coverage Status](https://coveralls.io/repos/github/ClintPy/Fast-Food-API/badge.svg?branch=bg-Fix-Bugs-endpoints-111504508-%23160333199)](https://coveralls.io/github/ClintPy/Fast-Food-API?branch=bg-Fix-Bugs-endpoints-111504508-%23160333199)
+
 ## API Endpoints
 
 | EndPoint              | Functionality                  |
