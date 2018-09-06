@@ -1,6 +1,6 @@
 # Fast-Food-Fast API
 
-[![Build Status](https://travis-ci.org/ClintPy/Fast-Food-API.svg?branch=master)](https://travis-ci.org/ClintPy)
+[![Build Status](https://travis-ci.org/ClintPy/Fast-Food-API.svg?branch=bg-Fix-Bugs-endpoints-111504508-%23160333199)](https://travis-ci.org/ClintPy)
 
 ## API Endpoints
 
