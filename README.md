@@ -1,8 +1,10 @@
 # Fast-Food-Fast API
 
-[![Build Status](https://travis-ci.org/ClintPy/Fast-Food-API.svg?branch=master)](https://travis-ci.org/ClintPy)
+## Continous Integration Badges
 
-[![Coverage Status](https://coveralls.io/repos/github/ClintPy/Fast-Food-API/badge.svg?branch=master)](https://coveralls.io/github/ClintPy/Fast-Food-API?branch=master)
+[![Build Status](https://travis-ci.org/ClintPy/Fast-Food-API.svg?branch=develop)](https://travis-ci.org/ClintPy)
+
+[![Coverage Status](https://coveralls.io/repos/github/ClintPy/Fast-Food-API/badge.svg?branch=develop)](https://coveralls.io/github/ClintPy/Fast-Food-API?branch=develop)
 
 ## API Endpoints
 

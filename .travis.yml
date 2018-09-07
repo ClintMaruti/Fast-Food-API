@@ -7,5 +7,11 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - pytest
-  
+    - pytest
+    - coverage run --source=api -m pytest && coverage report
+
+after_script:
+    - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+after_success:
+    - coveralls
