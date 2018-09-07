@@ -6,6 +6,8 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/ClintPy/Fast-Food-API/badge.svg?branch=develop)](https://coveralls.io/github/ClintPy/Fast-Food-API?branch=develop)
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/8f3d0713b68a40697b9b/maintainability)](https://codeclimate.com/github/ClintPy/Fast-Food-API/maintainability)
+
 ## API Endpoints
 
 | EndPoint              | Functionality                  |
