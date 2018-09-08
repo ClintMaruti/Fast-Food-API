@@ -8,6 +8,8 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/8f3d0713b68a40697b9b/maintainability)](https://codeclimate.com/github/ClintPy/Fast-Food-API/maintainability)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/679919e95a4948ba8b903ed32ba2b2e6)](https://www.codacy.com/app/ClintPy/Fast-Food-API?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ClintPy/Fast-Food-API&amp;utm_campaign=Badge_Grade)
+
 ## API Endpoints
 
 | EndPoint              | Functionality                  |
