@@ -2,6 +2,7 @@
 
 ## Continous Integration Badges
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8c20583751ea40a2bbd8b93ad9436c92)](https://app.codacy.com/app/ClintPy/Fast-Food-API?utm_source=github.com&utm_medium=referral&utm_content=ClintPy/Fast-Food-API&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/ClintPy/Fast-Food-API.svg?branch=develop)](https://travis-ci.org/ClintPy)
 
 [![Coverage Status](https://coveralls.io/repos/github/ClintPy/Fast-Food-API/badge.svg?branch=develop)](https://coveralls.io/github/ClintPy/Fast-Food-API?branch=develop)
