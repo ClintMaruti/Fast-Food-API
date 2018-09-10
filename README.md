@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/ClintPy/Fast-Food-API.svg?branch=develop)](https://travis-ci.org/ClintPy)
 
-[![Coverage Status](https://coveralls.io/repos/github/ClintPy/Fast-Food-API/badge.svg?branch=develop)](https://coveralls.io/github/ClintPy/Fast-Food-API?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/ClintPy/Fast-Food-API/badge.svg?branch=master)](https://coveralls.io/github/ClintPy/Fast-Food-API?branch=master)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/8f3d0713b68a40697b9b/maintainability)](https://codeclimate.com/github/ClintPy/Fast-Food-API/maintainability)
 
