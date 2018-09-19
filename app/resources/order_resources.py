@@ -1,5 +1,5 @@
 from flask import request, jsonify, abort, Blueprint
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
 
 #import models module
 from app.models import orders
@@ -16,16 +16,20 @@ class OrderResources(Resource):
         """
             endpoint to Insert new list of order
         """
-        if not request.json or not 'name' in request.json:
-            abort(400)
-            order = {
-                'id': orders[-1]['id'] + 1,
-                'name': request.json['name'],
-                'price': request.json['price'],
-                'status': request.json['status'],
-                    }
-        orders.append(order)
-        return jsonify({'order': order}), 201
+        order_id = len(orders) + 1
+        parser = reqparse.RequestParser()
+        parser.add_argument("name",type=str,required=True)
+        parser.add_argument("price",type=int,required=True)
+        parser.add_argument("status",type=str,required=True)
+        data = parser.parse_args()
+        order = {
+		'id': order_id, 
+        'name':data['name'],
+        'price':data['price'],
+		'status':data['status'] 
+		}
+        orders.append(order_id)
+        return order, 201
 
 class SpecificOrder(Resource):
     def get(self, order_id):

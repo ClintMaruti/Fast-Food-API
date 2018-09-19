@@ -5,6 +5,12 @@ from app import create_app
 app = create_app(config_name="TESTING")
 client = app.test_client()
 
+order_correct = {
+
+    "name": "Urban Burger",
+    "price": 800,
+    "status": "Delivered"
+}
 order_less_name = {
     "id": 1,
     "price": 800,
@@ -44,7 +50,17 @@ def test_order_without_name():
 
 def test_order_without_price():
     """
-        Test order without price
+        Test order without price   
     """
     res = client.post('api/v1/orders', data= order_less_price)
     assert res.status_code == 400
+    
+def test_resource_order_add():
+    """
+        Test to add post with appropirate data
+    """
+    res = client.post('api/v1/orders', data=order_correct)
+
+    assert res.status_code == 201
+    
+
