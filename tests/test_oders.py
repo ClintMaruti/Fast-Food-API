@@ -26,14 +26,7 @@ order_less_price = {
 nill_order = {}
 
 
-def test_all_orders():
-    """
-        Test for GET all orders
-    """
-    res = client.get('api/v1/orders')
-    assert res.status_code == 200
-
-
+############################## Tests for POST Endpoints ##############################
 def test_nill_order(): 
     """
         Test empty order
@@ -55,12 +48,20 @@ def test_order_without_price():
     res = client.post('api/v1/orders', data= order_less_price)
     assert res.status_code == 400
     
-def test_resource_order_add():
+def test_order_add_all():
     """
-        Test to add post with appropirate data
+        Test to add correct order, excluding id number since it is automatically incremented
     """
     res = client.post('api/v1/orders', data=order_correct)
-
     assert res.status_code == 201
+
+############################## Tests for GET Endpoints ##############################
     
+def test_all_orders():
+    """
+        Test for GET all orders
+    """
+    res = client.get('api/v1/orders')
+    assert res.status_code == 200
+
 
