@@ -11,6 +11,16 @@ class OrderResources(Resource):
         endpoint to Get a list of orders
         """
         return jsonify(orders)
+
+class SpecificOrder(Resource):
+    def get(self, order_id):
+        """
+        endpoint to Get a list of a specific order
+        """
+        order = [order for order in orders if order['id'] == order_id]
+        if len(order) == 0:
+            return "Error: Id not found"
+        return jsonify({'order': order[0]})
     
 
 
