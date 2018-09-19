@@ -5,9 +5,12 @@ from app import create_app
 app = create_app(config_name="TESTING")
 client = app.test_client()
 
-def test_all_orders():
+######################### Tests for Put Order ######################
+order = { "status": "pending"}
+
+def test_for_update_order():
     """
-        Test for GET all orders
+        Test for PUT endpoint to update order
     """
-    res = client.get('api/v1/orders')
-    assert res.status_code == 200
+    res = client.put('api/v1/orders/0', data = order)
+    assert res.status_code == 404
