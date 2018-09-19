@@ -18,10 +18,10 @@ def create_app(config_name):
 
     #local imports
     from app.resources.order_resources import OrderResources
-    #from app.resources.order_resources import SpecificOrder
+    from app.resources.order_resources import SpecificOrder
 
     #register endpoints
-    api.add_resource(OrderResources, '/api/v1/orders')
-    #api.add_resource(SpecificOrder,'/api/v1/orders/<int:order_id>' )
+    api.add_resource(OrderResources, '/api/v1/orders/')
+    api.add_resource(SpecificOrder,'/api/v1/orders/<int:order_id>' )
 
     return app

@@ -11,6 +11,21 @@ class OrderResources(Resource):
         endpoint to Get a list of orders
         """
         return jsonify(orders)
+    
+    def post(self):
+        """
+            endpoint to Insert new list of order
+        """
+        if not request.json or not 'name' in request.json:
+            abort(400)
+            order = {
+                'id': orders[-1]['id'] + 1,
+                'name': request.json['name'],
+                'price': request.json['price'],
+                'status': request.json['status'],
+                    }
+        orders.append(order)
+        return jsonify({'order': order}), 201
 
 class SpecificOrder(Resource):
     def get(self, order_id):
