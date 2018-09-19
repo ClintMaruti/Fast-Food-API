@@ -4,6 +4,10 @@ from flask_restful import Resource, reqparse
 #import models module
 from app.models import orders
 
+class Views(Resource):
+    def get(self):
+        return '''<h1>Fast-Food-Fast APi</h1>
+        <p>A prototype API for Fast Food Fast app.</p>'''
 
 class OrderResources(Resource):
     def get(self):
