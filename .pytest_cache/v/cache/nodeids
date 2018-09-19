@@ -1,7 +1,7 @@
 [
-  "tests/test_oders.py::test_all_orders",
   "tests/test_oders.py::test_nill_order",
   "tests/test_oders.py::test_order_without_name",
   "tests/test_oders.py::test_order_without_price",
-  "tests/test_oders.py::test_resource_order_add"
+  "tests/test_oders.py::test_order_add_all",
+  "tests/test_oders.py::test_all_orders"
 ]
