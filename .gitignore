@@ -1,0 +1,5 @@
+#Exclude these resources from getting pushed
+Env/
+.vscode/
+__pycache__
+.pyc*
