@@ -1,3 +1,6 @@
 [
-  "tests/test_oders.py::test_all_orders"
+  "tests/test_oders.py::test_all_orders",
+  "tests/test_oders.py::test_nill_order",
+  "tests/test_oders.py::test_order_without_name",
+  "tests/test_oders.py::test_order_without_price"
 ]
