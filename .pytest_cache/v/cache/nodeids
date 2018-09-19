@@ -1,4 +1,5 @@
 [
   "tests/test_oders.py::test_all_orders",
-  "tests/test_oders.py::test_get_specific_order"
+  "tests/test_oders.py::test_get_specific_order",
+  "tests/test_oders.py::test_invalid_user_get_responce"
 ]

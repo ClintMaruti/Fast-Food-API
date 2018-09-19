@@ -20,4 +20,12 @@ def test_get_specific_order():
     """
     res = client.get('api/v1/orders/0')
     assert res.status_code == 200
+
+def test_invalid_user_get_responce():
+    """
+        Test for if user request for order using String
+    """
+    res = client.get('api/v1/orders/cli')
+    assert res.status_code == 404
+    
     
