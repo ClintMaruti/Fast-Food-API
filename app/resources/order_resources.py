@@ -19,7 +19,7 @@ class OrderResources(Resource):
         order_id = len(orders) + 1
         parser = reqparse.RequestParser()
         parser.add_argument("name",type=str,required=True)
-        parser.add_argument("price",type=int,required=True)
+        parser.add_argument("price",type=str,required=True)
         parser.add_argument("status",type=str,required=True)
         data = parser.parse_args()
         order = {
