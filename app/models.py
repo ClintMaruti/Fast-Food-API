@@ -1,7 +1,7 @@
 orders = [
-  {'id': 0,
+  {  'id': 0,
      'name': 'Big Mac Burger',
-     'Price': 'Ksh. 850',
+     'price': 'Ksh. 850',
      'status': 'active',
     },
     
