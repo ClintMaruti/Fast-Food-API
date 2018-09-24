@@ -6,8 +6,11 @@ from app.models import orders
 
 class Views(Resource):
     def get(self):
+        """
+        Generate a Simple HTML home page
+        """
         return '''<h1>Fast-Food-Fast APi</h1>
-        <p>A prototype API for Fast Food Fast app.</p>'''
+                    <p>A prototype API for Fast Food Fast app.</p>'''
 
 class OrderResources(Resource):
     def get(self):
@@ -20,8 +23,9 @@ class OrderResources(Resource):
         """
             endpoint to Insert new list of order
         """
-        order_id = len(orders) + 1
         parser = reqparse.RequestParser()
+        order_id = len(orders) + 1
+    
         parser.add_argument("name",type=str,required=True)
         parser.add_argument("price",type=str,required=True)
         parser.add_argument("status",type=str,required=True)
@@ -44,7 +48,6 @@ class SpecificOrder(Resource):
         if len(order) == 0:
             return "Error: Id not found"
         return jsonify({'order': order[0]})
-        
     
     def put(self, order_id):
         """
