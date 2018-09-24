@@ -68,10 +68,4 @@ class SpecificOrder(Resource):
         order[0]['price'] = request.json.get('price', order[0]['price'])
         order[0]['status'] = request.json.get('status', order[0]['status'])
         return jsonify({'order': order[0]})
-    
-
-
-
         
-
-
