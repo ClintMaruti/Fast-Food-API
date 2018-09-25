@@ -64,11 +64,3 @@ class SpecificOrder(Resource):
         if isinstance(order_id, int):
             return jsonify(FOOD_ORDERS.order_update(order_id, order))
         return jsonify({"message": "Error in the order update"})
-        
-
-    
-
-
-
-        
-

@@ -123,4 +123,3 @@ def test_update_order_with_integ():
     """
     res = client.post('api/v1/orders/0', data=inte_order) 
     assert res.status_code == 405
-

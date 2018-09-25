@@ -40,4 +40,3 @@ class Orders(object):
         self.orders['status'] =  update_status
         return {"message: ": "Order Status Updates Successfully"}
       return {"message": "There has been an error in your update"}
-
