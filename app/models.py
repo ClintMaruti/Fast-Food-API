@@ -4,14 +4,14 @@ now = datetime.datetime.now()
 
 class Orders(object):
   def __init__(self):
-    self.orders = [
-      { "message": "Order created Successfuly",
+    self.orders = {
+       "message": "Order created Successfuly",
         "id": 0,
         "name": "Urban Burger",
         "price": 800,
         "status": "Delivered"
-      }
-    ]
+                    }
+
     self.food_order_count = 1
   
   def all_order(self):

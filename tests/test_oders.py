@@ -67,7 +67,7 @@ class TestOrders(unittest.TestCase):
         """
         self.res = self.client.post('api/v1/orders', data=self.sample_case_1)
         assert self.res.status_code == 200
-    
+        self.assertIn('Thank You.', str(self.res.data))
 
 
 ############################## Tests for GET Endpoints ##############################
@@ -78,6 +78,7 @@ class TestOrders(unittest.TestCase):
         """
         self.res = self.client.get('api/v1/orders')
         assert self.res.status_code == 200
+        self.assertIn('Urban', str(self.res.data))
 
     def test_all_orders_with_invalide_uri(self):
         """
