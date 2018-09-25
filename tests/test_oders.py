@@ -88,7 +88,7 @@ def test_fethc_all_orders():
     res = client.get('api/v1/orderss')
     assert res.status_code == 404
 
-############################## Tests for PUT Endpoints ##############################
+############################## Tests for PUT Endpoints ###################################
 def test_udate_orders():
     """
         Test endpoint to update order when the URI is invalid
