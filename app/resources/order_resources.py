@@ -4,7 +4,7 @@ from flask_restful import Resource, reqparse
 #import models module
 from app.models import Orders
 
-FOOD_ORDERS = Orders()
+FOOD_ORDERS = Orders('Burger', '800', '2')
 
 class Views(Resource):
     def get(self):
@@ -30,13 +30,13 @@ class OrderResources(Resource):
     
         parser.add_argument("name",type=str,required=True)
         parser.add_argument("price",type=str,required=True)
-        parser.add_argument("status",type=str,required=True)
+        parser.add_argument("quantity",type=str,required=True)
         data = parser.parse_args()
         order = {
 		'id': order_id, 
         'name':data['name'],
         'price':data['price'],
-		'status':data['status'] 
+		'quantity':data['quantity'] 
 		}
 
         return jsonify(FOOD_ORDERS.insert_order(order))
@@ -56,10 +56,10 @@ class SpecificOrder(Resource):
         """
         parser = reqparse.RequestParser()
 
-        parser.add_argument("status",type=str,required=True)
+        parser.add_argument("name",type=str,required=True)
         data = parser.parse_args()
         order = {
-		'status':data['status'] 
+		'name':data['name'] 
 		}
         if isinstance(order_id, int):
             return jsonify(FOOD_ORDERS.order_update(order_id, order))

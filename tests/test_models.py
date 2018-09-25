@@ -2,7 +2,7 @@ import unittest
 from app.models import Orders
 from app import create_app
 
-FOOD_ORDER = Orders()
+FOOD_ORDER = Orders('Beef','850','5')
 
 
 class TestOrdersModel(unittest.TestCase):
@@ -19,11 +19,11 @@ class TestOrdersModel(unittest.TestCase):
     
     def test_message_order(self):
         """ Assert That The models returns a message"""
-        self.assertIn("message", FOOD_ORDER.all_order())
+        self.assertIn("No Food Available", str(FOOD_ORDER.all_order()))
     
     def test_message_in_insert(self):
         self.full_order = FOOD_ORDER.all_order()
-        self.assertIn("Thank You.", str(FOOD_ORDER.insert_order(self.full_order)))
+        self.assertIn("Order Rejected", str(FOOD_ORDER.insert_order(self.sample_order)))
     
     def test_error_message_in_insert(self):
         self.assertIn("Rejected", str(FOOD_ORDER.insert_order(self.bad_order)))

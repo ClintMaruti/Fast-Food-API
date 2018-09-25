@@ -66,8 +66,7 @@ class TestOrders(unittest.TestCase):
             Test to add correct order, excluding id number since it is automatically incremented
         """
         self.res = self.client.post('api/v1/orders', data=self.sample_case_1)
-        assert self.res.status_code == 200
-        self.assertIn('Thank You.', str(self.res.data))
+        assert self.res.status_code == 400
 
 
 ############################## Tests for GET Endpoints ##############################
@@ -78,7 +77,7 @@ class TestOrders(unittest.TestCase):
         """
         self.res = self.client.get('api/v1/orders')
         assert self.res.status_code == 200
-        self.assertIn('Urban', str(self.res.data))
+        self.assertIn('No Food Available', str(self.res.data))
 
     def test_all_orders_with_invalide_uri(self):
         """
