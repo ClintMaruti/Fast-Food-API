@@ -8,29 +8,33 @@ class TestOrders(unittest.TestCase):
 
     def setUp(self):
 
-        self.app = create_app(config_name="TESTING")
+        self.app = create_app(config_name="testing")
+        self.app_context = self.app.app_context()
+        self.app_context.push()
         self.client = self.app.test_client()
 
-        self.sample_case_1 = {
-            "name": "Urban Burger",
-            "price": 800,
-            "quantity": "5"
-                      }
+        self.sample_case_1 = 2
+
         self.sample_case_2 = {
-            "id": 1,
-            "price": 800,
-            "quantity": "7"
-        }
-        self.sample_case_3 = {
-            "id": 1,
             "name": "Kebab",
-            "quantity": "8"    
+            "price": 500,
+            "quantity": 2,    
+        }
+
+        self.sample_case_3 = {
+            "name": "Kebab",
+            "price": 500,
+            "quantity": -2,    
         }
         self.sample_case_4 = {
-            "quantity": "7"
+            "name": "Chips",
+            "price": -5,
+            "quantity": 5,
         }
         self.sample_case_5 = {
-
+            "name": "",
+            "price": 500,
+            "quantity": 5,
         }
         self.sample_case_6 = {
             "quantity": 2
@@ -40,94 +44,73 @@ class TestOrders(unittest.TestCase):
         self.api_test_client = None
 
 ############################## Tests for POST Endpoints ##############################
-    def test_nill_order(self): 
+    def test_reject_order_if_name_is_empty(self): 
         """
-            Test empty order
+            Test Order if name is empty
         """
-        self.res = self.client.post('api/v1/orders', data= self.sample_case_5)
-        assert self.res.status_code == 500
-
-    def test_order_without_name(self):
-        """
-        Test order without name
-        """
-        self.res = self.client.post('api/v1/orders', data = self.sample_case_2)
-        assert self.res.status_code == 500
-
-    def test_order_without_price(self):
-        """
-            Test order without price   
-        """
-        self.res = self.client.post('api/v1/orders', data= self.sample_case_3)
-        assert self.res.status_code == 500
+        res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_5), content_type='application/json')
+        self.assertEqual(json.loads(res.data)["message"],"Name required. Invalid Order")
+        self.assertEqual(res.status_code, 400)
     
-    def test_order_add_all(self):
+    def test_reject_order_if_price_is_less_than_zero(self):
         """
-            Test to add correct order, excluding id number since it is automatically incremented
+            Test order if price is less than 0
         """
-        self.res = self.client.post('api/v1/orders', data=self.sample_case_1)
-        assert self.res.status_code == 500
+        res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_4), content_type='application/json')
+        self.assertEqual(json.loads(res.data)["message"],"Price must be greater than 0")
+        self.assertEqual(res.status_code, 400)
 
+    def test_reject_order_if_quanity_is_less_than_zero(self):
+        """
+            Test order if quantity is less than zero
+        """
+        res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_3), content_type='application/json')
+        self.assertEqual(json.loads(res.data)["message"],"Quantity Must Not Be less than 0")
+        self.assertEqual(res.status_code, 400)
+        
+    def test_accept_order_if_everything_is_okay(self):
+        """
+            Test order if request is valid
+        """
+        res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_2), content_type='application/json')
+        self.assertEqual(json.loads(res.data)["Message"],"Your Order was Placed Successfully!")
+        self.assertEqual(res.status_code, 201)
 
-############################## Tests for GET Endpoints ##############################
+    def test_get_all_orders(self):
+        """
+            Test GET all orders
+        """
+        res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_2), content_type='application/json')
+        self.assertEqual(res.status_code, 201)
+        res = self.client.get('api/v1/orders')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('Success', str(res.data))
     
-    def test_all_orders(self):
+    def test_accept_order_with_correct_id(self):
         """
-            Test for GET all orders
+            Test reject order when id is invalid
         """
-        self.res = self.client.get('api/v1/orders')
-        assert self.res.status_code == 200
-        self.assertIn('No Food Available', str(self.res.data))
+        res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_2), content_type='application/json')
+        self.assertEqual(res.status_code, 201)
+        res = self.client.get('api/v1/orders/1')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('Item1', str(res.data))
+    
+    def test_api_can_update_order(self):
+        """
+            Test api can update an Order List
+        """
+        res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_2), content_type='application/json')
+        self.assertEqual(res.status_code, 201)
+    
+    def test_update_message_in_api(self):
+        """
+            Test api returns message when Update is successful
+        """
+        res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_2), content_type='application/json')
+        self.assertEqual(json.loads(res.data)["Message"],"Your Order was Placed Successfully!")
+        self.assertEqual(res.status_code, 201)
 
-    def test_all_orders_with_invalide_uri(self):
-        """
-            Test for GET all orders with invalid sequence
-        """
-        self.res = self.client.get('api/v1/orders7')
-        assert self.res.status_code == 404
-
-    def test_fethc_all_orders(self):
-        """
-            Test for GET all orders with an invalid route
-        """
-        self.res = self.client.get('api/v1/orderss')
-        assert self.res.status_code == 404
-
-############################## Tests for PUT Endpoints ###################################
-    def test_udate_orders(self):
-        """
-            Test endpoint to update order when the URI is invalid
-        """
-        self.res = self.client.post('api/v1/orders/0') 
-        assert self.res.status_code == 405
-
-    def test_update_orders_with_bad_uri(self):
-        """
-            Test endpoint to update order when the URI is wrong
-        """
-        self.res = self.client.post('api/v1/orders/<int: order_id>') 
-        assert self.res.status_code == 404
-
-    def test_update_order_with_invalid_put(self):
-        """
-            Test endpoint to update order when input is wrong
-        """
-        self.res = self.client.post('api/v1/orders/0', data= self.sample_case_3) 
-        assert self.res.status_code == 405
-
-    def test_update_order_with_empty(self):
-        """
-             Test endpoint to update order when input is wrong
-        """
-        self.res = self.client.post('api/v1/orders/0', data=self.sample_case_5) 
-        assert self.res.status_code == 405
-
-    def test_update_order_with_integ(self):
-        """
-            Test endpoint to update order when input is wrong
-        """
-        self.res = self.client.post('api/v1/orders/0', data=self.sample_case_6) 
-        assert self.res.status_code == 405
-
+    
 if __name__ == '__main__':
     unittest.main()

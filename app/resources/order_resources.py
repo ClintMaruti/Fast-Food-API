@@ -2,10 +2,10 @@ from flask import request, jsonify, abort, Blueprint
 from flask_restful import Resource, reqparse
 
 #import models module
-from app.models import Orders
+from app.models import Orders,orders
 
 #creat an instance of the Class
-bucket1 = Orders()
+order_list = Orders()
 
 class Views(Resource):
     def get(self):
@@ -20,9 +20,13 @@ class OrderResources(Resource):
         """
         endpoint to Get a list of orders
         """
-        bucketall = bucket1.all_order()
+        all_order = order_list.all_order()
+        if all_order == "":
+            response = jsonify({"message": "No Order Available"})
+            response.status_code = 400
+            return response
         return jsonify ({"Message": "Success",
-                "Bucket:": bucketall}, 200)
+                "Bucket:": all_order}, 200)
             
     def post(self):
         """
@@ -34,32 +38,46 @@ class OrderResources(Resource):
 
         parser.add_argument("name",type=str,required=True, help="Name cannot be blank!")
         parser.add_argument("price",type=int,required=True, help='Rate cannot be converted')
-        parser.add_argument("quantity",type=str,required=True)
+        parser.add_argument("quantity",type=int,required=True)
 
         name = data['name']
         price = data['price']
         quantity = data['quantity']
         
         if name == "":
-            return jsonify({"message": 'Order Invalid'}, 400)
-        elif price < 0:
-            return jsonify({"message": 'Order Invalid'}, 400)
-        elif quantity == "":
-            return jsonify({"message": 'Order Invalid'}, 400)
+            response = jsonify({"message": 'Name required. Invalid Order'})
+            response.status_code = 400
+            return response
+        elif price <= 0:
+            response = jsonify({"message": 'Price must be greater than 0'})
+            response.status_code = 400
+            return response
+        elif quantity <= 0:
+            response = jsonify({"message": 'Quantity Must Not Be less than 0'})
+            response.status_code = 400
+            return response
         else:
-            res = bucket1.insert_order(name,price,quantity)
-        return jsonify({"message": 'Your Order was placed successfully! ',
-                    "Bucket: ":  res}, 200)
+            response = jsonify({"Message": 'Your Order was Placed Successfully!'})
+            response.status_code = 201
+            return response 
 
 class SpecificOrder(Resource):
     def get(self, order_id):
         """
         endpoint to Get a list of a specific order
         """
-        if isinstance(order_id, int):
-            bucket = bucket1.all_order()
-            return bucket
-        
+        self.order_id = order_id
+
+        for order in orders:
+            if self.order_id != order_id:
+                response = jsonify({"Message": 'The Order Is No available!'})
+                response.status_code = 400 
+                return response
+            else:
+                response = jsonify({"Message": 'Successful Order!'})
+                response.status_code = 200
+                return order
+       
     def put(self, order_id):
         """
         endpoint to Update a list of a specific order
@@ -71,11 +89,23 @@ class SpecificOrder(Resource):
         parser.add_argument("quantity",type=str,required=True)
         data = parser.parse_args()
         name = data['name']
-        price = data['name']
+        price = data['price']
         quantity = data['quantity']
 
-
-        bucketupdate = bucket1.order_update(order_id,name,price,quantity)
-        if isinstance(order_id, int):
-            return bucketupdate
-        return jsonify({"message": "Error in the order update"}, 404)
+        if name == "":
+            response = jsonify({"Message": 'Name required. Invalid Entry'})
+            response.status_code = 400
+            return response
+        elif price <= 0:
+            response = jsonify({"Message": 'Price must be greater than 0'})
+            response.status_code = 400
+            return response
+        elif quantity <= 0:
+            response = jsonify({"Message": 'Quantity Must Not Be less than 0'})
+            response.status_code = 400
+            return response
+        else:
+            response = jsonify({"Message": 'Your Order was Updated Successfully!'})
+            response.status_code = 201
+            orderupdate = order_list.order_update(order_id,name,price,quantity)
+            return response, orderupdate 

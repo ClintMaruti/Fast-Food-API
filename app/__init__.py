@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 
 #local imports
-import config
+from config import app_config
 
 from app.resources.order_resources import OrderResources
 from app.resources.order_resources import SpecificOrder
@@ -17,7 +17,7 @@ def create_app(config_name):
     #initialize api 
     api = Api(app)
 
-    app.config.from_object('config')
+    app.config.from_object(app_config[config_name])
     app.url_map.strict_slashes = False
 
  

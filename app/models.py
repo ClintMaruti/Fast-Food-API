@@ -1,17 +1,18 @@
 import datetime
 from flask import jsonify, sessions
 
-orders = []
 
 class Orders(object):
-  """ Class that Holds methods for the endpoints """
+  """ This class defines the Order Models"""
   def __init__(self, name=None, price=None, quantity=None):
-
+    """ A method constructor to define Order"""
+  
     self.id = len(orders) + 1
     self.name = name
     self.price = price
     self.quantity = quantity
-  
+
+    
   def all_order(self):
     """ Model function that Fetchs all orders """
     if orders == []:
@@ -45,7 +46,9 @@ class Orders(object):
           order['quantity'] == quantity
           return orders
 
-
-
-
-
+#sample data for test case
+orders = [{ "id": "0",
+            "name": "Item1",
+            "price": 500,
+            "quantity": 5,
+        }]
