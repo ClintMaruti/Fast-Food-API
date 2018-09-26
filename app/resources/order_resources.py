@@ -4,7 +4,8 @@ from flask_restful import Resource, reqparse
 #import models module
 from app.models import Orders
 
-FOOD_ORDERS = Orders('Burger', '800', '2')
+#creat an instance of the Class
+bucket1 = Orders()
 
 class Views(Resource):
     def get(self):
@@ -19,27 +20,19 @@ class OrderResources(Resource):
         """
         endpoint to Get a list of orders
         """
-        return jsonify(FOOD_ORDERS.all_order())
-    
+        bucketall = bucket1.all_order()
+        return bucketall
+        
     def post(self):
         """
             endpoint to Insert new list of order
         """
-        parser = reqparse.RequestParser()
-        order_id = 4
-    
-        parser.add_argument("name",type=str,required=True)
-        parser.add_argument("price",type=str,required=True)
-        parser.add_argument("quantity",type=str,required=True)
-        data = parser.parse_args()
-        order = {
-		'id': order_id, 
-        'name':data['name'],
-        'price':data['price'],
-		'quantity':data['quantity'] 
-		}
-
-        return jsonify(FOOD_ORDERS.insert_order(order))
+        data = request.get_json()
+        name = data['name']
+        price = data['price']
+        quantity = data['quantity']
+        res = bucket1.insert_order(name,price,quantity)
+        return res
 
 class SpecificOrder(Resource):
     def get(self, order_id):
@@ -47,9 +40,10 @@ class SpecificOrder(Resource):
         endpoint to Get a list of a specific order
         """
         if isinstance(order_id, int):
-            return jsonify(FOOD_ORDERS.order_id), 200
-        return jsonify({"Message":"Invalid input"}), 400
-    
+            bucket = bucket1.all_order()
+            return bucket
+        return jsonify({"Message":"Invalid input"})
+
     def put(self, order_id):
         """
         endpoint to Update a list of a specific order
@@ -57,10 +51,18 @@ class SpecificOrder(Resource):
         parser = reqparse.RequestParser()
 
         parser.add_argument("name",type=str,required=True)
+        parser.add_argument("price",type=str,required=True)
+        parser.add_argument("quan0tity",type=str,required=True)
         data = parser.parse_args()
+        name = data['name']
+        price = data['name']
+        quantity = data['quantity']
+
         order = {
 		'name':data['name'] 
 		}
+
+        bucketupdate = bucket1.order_update(order_id,name,price,quantity)
         if isinstance(order_id, int):
-            return jsonify(FOOD_ORDERS.order_update(order_id, order))
+            return bucketupdate
         return jsonify({"message": "Error in the order update"})

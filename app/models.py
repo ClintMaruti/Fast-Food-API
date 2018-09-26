@@ -1,47 +1,54 @@
 import datetime
+from flask import jsonify, sessions
 
-now = datetime.datetime.now()
-ORDERS = []
-ORDER_COUNT = 1
 
 class Orders(object):
   """ Class that Holds methods for the endpoints """
-  def __init__(self, name, price, quantity):
-    self.name = name
-    self.price = price
-    self.quantity = quantity
-    self.food_order_count = 1
+  def __init__(self):
+    """ We initialize an empty order list """
+    self.order_list = []
+    self.orernotfound = None
   
   def all_order(self):
     """ Model function that Fetchs all orders """
-    if ORDERS == []:
-      return {"Message": "No Food Available"}
-    return ORDERS
+    if self.order_list == []:
+      return ({"Message": "No Food Available.",
+                "Bucket:": self.order_list})
+    
 
-  def insert_order(self, order_info):
+  def insert_order(self, name, price, quantity):
     """ Model function to Insert a new Order int list """
-    if isinstance(order_info, dict):
-      order_info['date'] = now
+    self.orders = {}
 
-      global ORDER_COUNT, ORDERS  
-      ORDER_COUNT += 1
-      ORDERS[ORDER_COUNT] = order_info 
-
-      return {'message': 'Thank You. Your Order has been placed successfuly! '}
-    return {"message": 'Order Rejected!!!'}
+    self.orderId = len(self.order_list)
+    self.orders['name'] = name
+    self.orders['price'] = price
+    self.orders['quantity'] = quantity
+    self.orders['order_id'] = self.orderId + 1
+    self.order_list.append(self.orders)
+    return jsonify({"message": 'Your Order was placed successfully! ',
+                    "Bucket: ":  self.order_list})
   
   def order_id(self, order_id):
     """ Model function to GET a specific order list """
     if isinstance(order_id, int):
-      if order_id in ORDERS:
-        return ORDERS[order_id]
-      else:
+      for order in self.order_list:
+        if order['order_id'] == order_id:
+          return jsonify({"message": "Success.", "Bucket": order})
         return {'message': 'Order Not available'}
   
-  def order_update(self, order_id, update_status):
+  def order_update(self, order_id,name,price,quantity):
     """ Model function to Update a specific order list """
     if isinstance(order_id, int):
-      if order_id in ORDERS:
-        ORDERS['status'] =  update_status
-        return {"message: ": "Order Status Updates Successfully"}
-      return {"message": "There has been an error in your update"}
+      for order in self.order_list:
+        if order['order_id'] == order_id:
+          order['name'] == name
+          order['price'] == price
+          order['quantity'] == quantity
+          return jsonify({"message ": "Successful Update.",
+          "Bucket: ": self.order_list}), 201
+        return ({"Message": "Update not succesfull.", "Bucket, ": self.order_list})
+
+
+
+

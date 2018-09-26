@@ -14,26 +14,26 @@ class TestOrders(unittest.TestCase):
         self.sample_case_1 = {
             "name": "Urban Burger",
             "price": 800,
-            "status": "Delivered"
+            "quantity": "5"
                       }
         self.sample_case_2 = {
             "id": 1,
             "price": 800,
-            "status": "Delivered"
+            "quantity": "7"
         }
         self.sample_case_3 = {
             "id": 1,
             "name": "Kebab",
-            "status": "Delivered"    
+            "quantity": "8"    
         }
         self.sample_case_4 = {
-            "status": "dekakkb"
+            "quantity": "7"
         }
         self.sample_case_5 = {
 
         }
         self.sample_case_6 = {
-            "status": 4
+            "quantity": 2
         }
 
     def tearDown(self):
@@ -45,28 +45,28 @@ class TestOrders(unittest.TestCase):
             Test empty order
         """
         self.res = self.client.post('api/v1/orders', data= self.sample_case_5)
-        assert self.res.status_code == 400
+        assert self.res.status_code == 500
 
     def test_order_without_name(self):
         """
         Test order without name
         """
         self.res = self.client.post('api/v1/orders', data = self.sample_case_2)
-        assert self.res.status_code == 400
+        assert self.res.status_code == 500
 
     def test_order_without_price(self):
         """
             Test order without price   
         """
         self.res = self.client.post('api/v1/orders', data= self.sample_case_3)
-        assert self.res.status_code == 400
+        assert self.res.status_code == 500
     
     def test_order_add_all(self):
         """
             Test to add correct order, excluding id number since it is automatically incremented
         """
         self.res = self.client.post('api/v1/orders', data=self.sample_case_1)
-        assert self.res.status_code == 400
+        assert self.res.status_code == 500
 
 
 ############################## Tests for GET Endpoints ##############################
