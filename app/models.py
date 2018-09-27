@@ -1,6 +1,7 @@
 import datetime
 from flask import jsonify, sessions
 
+orders = []
 
 class Orders(object):
   """ This class defines the Order Models"""
@@ -45,10 +46,3 @@ class Orders(object):
           order['price'] == price
           order['quantity'] == quantity
           return orders
-
-#sample data for test case
-orders = [{ "id": "0",
-            "name": "Item1",
-            "price": 500,
-            "quantity": 5,
-        }]

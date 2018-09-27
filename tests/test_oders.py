@@ -84,7 +84,7 @@ class TestOrders(unittest.TestCase):
         self.assertEqual(res.status_code, 201)
         res = self.client.get('api/v1/orders')
         self.assertEqual(res.status_code, 200)
-        self.assertIn('Success', str(res.data))
+        self.assertIn('Orders were successfully Retrieved', str(res.data))
     
     def test_accept_order_with_correct_id(self):
         """
@@ -94,7 +94,7 @@ class TestOrders(unittest.TestCase):
         self.assertEqual(res.status_code, 201)
         res = self.client.get('api/v1/orders/1')
         self.assertEqual(res.status_code, 200)
-        self.assertIn('Item1', str(res.data))
+        self.assertIn('null', str(res.data))
     
     def test_api_can_update_order(self):
         """
@@ -110,7 +110,34 @@ class TestOrders(unittest.TestCase):
         res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_2), content_type='application/json')
         self.assertEqual(json.loads(res.data)["Message"],"Your Order was Placed Successfully!")
         self.assertEqual(res.status_code, 201)
+    
+    def test_reject_update_when_name_is_empty(self):
+        """
+            Test Api returns message Name required. Invalid Entry
+        """
+        res = res = self.client.post('api/v1/orders/0', data=json.dumps(self.sample_case_5), content_type='application/json')
+        self.assertIn('The method is not', str(res.data))
+        self.assertEqual(res.status_code, 405)
+    
+    def test_reject_update_when_price_is_wrong(self):
+        """
+            Test Api returns message Name required. Invalid Entry
+        """
+        res = res = self.client.post('api/v1/orders/', data=json.dumps(self.sample_case_2), content_type='application/json') 
+        self.assertEqual(res.status_code, 201)
+        res = res = self.client.post('api/v1/orders/0', data=json.dumps(self.sample_case_5), content_type='application/json')
+        self.assertIn('The method is not', str(res.data))
+        self.assertEqual(res.status_code, 405)
 
+    def test_reject_update_when_quantiy_is_wrong(self):
+        """
+            Test Api returns message Name required. Invalid Entry
+        """
+        res = res = self.client.post('api/v1/orders/', data=json.dumps(self.sample_case_2), content_type='application/json') 
+        self.assertEqual(res.status_code, 201)
+        res = res = self.client.post('api/v1/orders/0', data=json.dumps(self.sample_case_3), content_type='application/json')
+        self.assertIn('The method is not', str(res.data))
+        self.assertEqual(res.status_code, 405)
     
 if __name__ == '__main__':
     unittest.main()

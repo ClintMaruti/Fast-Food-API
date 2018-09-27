@@ -25,8 +25,8 @@ class OrderResources(Resource):
             response = jsonify({"message": "No Order Available"})
             response.status_code = 400
             return response
-        return jsonify ({"Message": "Success",
-                "Bucket:": all_order}, 200)
+        return jsonify ({"Message": "Orders were successfully Retrieved",
+                "Your Orders:": all_order}, 200)
             
     def post(self):
         """
@@ -37,8 +37,8 @@ class OrderResources(Resource):
         data = request.get_json()
 
         parser.add_argument("name",type=str,required=True, help="Name cannot be blank!")
-        parser.add_argument("price",type=int,required=True, help='Rate cannot be converted')
-        parser.add_argument("quantity",type=int,required=True)
+        parser.add_argument("price",type=int,required=True, help='Price Cannot be left Blank')
+        parser.add_argument("quantity",type=int,required=True, help='Quantity Cannot be left Blank')
 
         name = data['name']
         price = data['price']
@@ -70,11 +70,11 @@ class SpecificOrder(Resource):
 
         for order in orders:
             if self.order_id != order_id:
-                response = jsonify({"Message": 'The Order Is No available!'})
+                response = jsonify({"Message": 'The Order Is Not available!'})
                 response.status_code = 400 
                 return response
             else:
-                response = jsonify({"Message": 'Successful Order!'})
+                response = jsonify({"Message": 'Your Order was retrieved Successfully'})
                 response.status_code = 200
                 return order
        
@@ -106,6 +106,5 @@ class SpecificOrder(Resource):
             return response
         else:
             response = jsonify({"Message": 'Your Order was Updated Successfully!'})
-            response.status_code = 201
-            orderupdate = order_list.order_update(order_id,name,price,quantity)
-            return response, orderupdate 
+            response.status_code = 200
+            return response, 
