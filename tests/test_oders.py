@@ -1,4 +1,3 @@
-import pytest
 import unittest
 import json
 from app import create_app
@@ -141,3 +140,4 @@ class TestOrders(unittest.TestCase):
     
 if __name__ == '__main__':
     unittest.main()
+    

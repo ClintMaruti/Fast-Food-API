@@ -106,5 +106,6 @@ class SpecificOrder(Resource):
             return response
         else:
             response = jsonify({"Message": 'Your Order was Updated Successfully!'})
+            orderupdate = order_list.order_update(order_id,name,price,quantity)
             response.status_code = 200
-            return response, 
+            return response 
