@@ -3,6 +3,7 @@ from flask_restful import Api
 
 #local imports
 from config import app_config
+from db import connect
 
 from app.resources.order_resources import OrderResources
 from app.resources.order_resources import SpecificOrder
@@ -17,10 +18,12 @@ def create_app(config_name):
     #initialize api 
     api = Api(app)
 
-    app.config.from_object(app_config[config_name])
+    app.config.from_pyfile('config.py')
+    #app.config.from_object(app_config[config_name])
     app.url_map.strict_slashes = False
 
  
+    connect()
 
     #register endpoints
     api.add_resource(Views, '/')

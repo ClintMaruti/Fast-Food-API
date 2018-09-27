@@ -43,7 +43,7 @@ class TestOrders(unittest.TestCase):
     def tearDown(self):
         self.api_test_client = None
 
-############################## Tests for POST Endpoints ##############################
+
     def test_reject_order_if_name_is_empty(self): 
         """
             Test Order if name is empty
