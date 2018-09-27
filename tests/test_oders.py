@@ -92,18 +92,6 @@ class TestOrders(unittest.TestCase):
         self.assertEqual(get_order.status_code, 200)
         self.assertEqual(json.loads(get_order.data)["Message"],'Your Order was retrieved Successfully')
     
-    def test_get_order_which_is_unavailable(self):
-        """
-            Test Get for unavailable
-        """
-        res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_2), content_type='application/json') 
-        self.assertEqual(json.loads(res.data)["Message"], "Order was placed successfully!")
-
-        #Get List
-        get_order = self.client.get('api/v1/orders/8')
-        self.assertEqual(get_order.status_code, 400)
-        self.assertEqual(json.loads(get_order.data)["Message"],'The Order Is Not available!')
-
     
     def test_reject_update_if_name_is_empty(self):
         """
