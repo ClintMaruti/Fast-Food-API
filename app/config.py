@@ -10,6 +10,10 @@ class Testing(Config):
     """Configuration for testing environment"""
     DEBUG = True
 
+class Development(Config):
+    """Configuration for testing environment"""
+    DEBUG = True
+
 
 class Production(Config):
     """Configuration for production environment"""
@@ -18,5 +22,6 @@ class Production(Config):
 
 app_config = {
     'testing': Testing,
-    'production': Production
+    'production': Production,
+    'development': Development,
 }
