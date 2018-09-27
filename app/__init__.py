@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 
 #local imports
-from config import app_config
+from .config import app_config
 
 from app.resources.order_resources import OrderResources
 from app.resources.order_resources import SpecificOrder
