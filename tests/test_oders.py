@@ -117,7 +117,7 @@ class TestOrders(unittest.TestCase):
         self.assertEqual(json.loads(update_res.data)["Message"],"Name required. Invalid Entry")
         self.assertEqual(update_res.status_code, 400)
     
-    def test_all_order_returns(self):
+    def test_orders_fetched_successfully(self):
         """
             Test All order returns
         """
