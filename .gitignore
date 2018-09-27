@@ -4,4 +4,3 @@ Env/
 __pycache__
 .pyc*
 .pytest_cache
-resources/v2
