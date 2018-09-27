@@ -76,7 +76,7 @@ class SpecificOrder(Resource):
             else:
                 response = jsonify({"Message": 'Your Order was retrieved Successfully'})
                 response.status_code = 200
-                return order
+                return response
        
     def put(self, order_id):
         """
