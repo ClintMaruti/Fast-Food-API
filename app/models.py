@@ -3,7 +3,7 @@ from flask import jsonify, sessions
 
 orders = []
 
-class Orders(object):
+class Order(object):
   """ This class defines the Order Models"""
   def __init__(self, name=None, price=None, quantity=None):
     """ A method constructor to define Order"""
@@ -18,14 +18,22 @@ class Orders(object):
     """ Model function that Fetchs all orders """
     if orders == []:
       return orders
+  
+  def order_payload(self):
+    return {
+      "id":self.id,
+      "name": self.name,
+      "price": self.price,
+      "quantity": self.quantity,
+    }
 
-  def insert_order(self, name, price, quantity):
+  def insert_order(self):
     """ Model function to Insert a new Order int list """
     self.bucketlist = {}
 
-    self.bucketlist['name'] = name
-    self.bucketlist['price'] = price
-    self.bucketlist['quantity'] = quantity
+    self.bucketlist['name'] = self.name
+    self.bucketlist['price'] = self.price
+    self.bucketlist['quantity'] = self.quantity
     self.bucketlist['order_id'] = self.id
     orders.append(self.bucketlist)
     return orders[-1]
