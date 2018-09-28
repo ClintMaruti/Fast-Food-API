@@ -103,11 +103,11 @@ class SpecificOrder(Resource):
             response = jsonify({"Message": 'Name required. Invalid Entry'})
             response.status_code = 400
             return response
-        elif price <= 0:
+        elif not price:
             response = jsonify({"Message": 'Price must be greater than 0'})
             response.status_code = 400
             return response
-        elif quantity <= 0:
+        elif not quantity:
             response = jsonify({"Message": 'Quantity Must Not Be less than 0'})
             response.status_code = 400
             return response
