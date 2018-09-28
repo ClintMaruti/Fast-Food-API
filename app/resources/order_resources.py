@@ -79,7 +79,7 @@ class SpecificOrder(Resource):
                 response.status_code = 400 
                 return response
             else:
-                response = jsonify({"Message": 'Your Order was retrieved Successfully'})
+                response = jsonify({"Orders": order, "Message": 'Your Order was retrieved Successfully'})
                 response.status_code = 200
                 return response
        
@@ -112,7 +112,7 @@ class SpecificOrder(Resource):
             response.status_code = 400
             return response
         else:
-            response = jsonify({"Message": 'Your Order was Updated Successfully!'})
-            orderupdate = order_list.order_update(order_id,name,price,quantity)
+            order_update = order_list.order_update(order_id,name,price,quantity)
+            response = jsonify({"Orders": order_update,"Message": 'Your Order was Updated Successfully!'})
             response.status_code = 200
             return response 
