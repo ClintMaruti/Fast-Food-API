@@ -29,7 +29,7 @@ class Config():
 
 class Development(Config):
     """Configuration for development environment"""
-
+    DEBUG = True
 
 class Testing(Config):
     """Configuration for testing environment"""
