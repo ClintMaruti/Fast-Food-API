@@ -42,30 +42,30 @@ class TestOrders(unittest.TestCase):
     def tearDown(self):
         self.api_test_client = None
 
-        
+    ###POST  
     def test_accept_order_if_order_is_okay(self):
         """
-            Test order if request is valid
+            Test accepts orders if the order is valid. Test returns message "Order was placed successfully!"
         """
         res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_2), content_type='application/json')
         self.assertEqual(json.loads(res.data)["Message"],"Order was placed successfully!")
         self.assertEqual(res.status_code, 201)
     
-    def test_order_message_when_name_the_is_empty(self):
+    def test_reject_order_If_name_is_empty(self):
         """
-            Test returns message if name is missing
+            Test returns message if name is is missing
         """
         res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_name_empty), content_type='application/json')
         self.assertEqual(json.loads(res.data)["message"],"Name required. Invalid Order")
     
-    def test_order_message_when_the_price_is_less_than_zero(self):
+    def test_reject_order_if_the_price_is_less_than_zero(self):
         """
             Test returns message if price is less than zero
         """
         res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_price_invalid), content_type='application/json')
         self.assertEqual(json.loads(res.data)["message"], "Price must be greater than 0")
     
-    def test_order_message_when_quantity_is_less_than_zero(self):
+    def test_reject_order_if_quantity_is_less_than_zero(self):
         res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_quantity_invalid), content_type='application/json')
         self.assertEqual(json.loads(res.data)["message"], "Quantity Must Not Be less than 0")
     
@@ -80,6 +80,7 @@ class TestOrders(unittest.TestCase):
         res = self.client.post('api/v1/orders', data=json.dumps(self.sample_case_quantity_invalid), content_type='application/json')
         self.assertEqual(json.loads(res.data)["message"],"Quantity Must Not Be less than 0")
     
+    ###GET
     def test_get_single_order(self):
         """
             Test Get for single order
@@ -92,7 +93,8 @@ class TestOrders(unittest.TestCase):
         self.assertEqual(get_order.status_code, 200)
         self.assertEqual(json.loads(get_order.data)["Message"],'Your Order was retrieved Successfully')
     
-    
+       
+    ##Put
     def test_reject_update_if_name_is_empty(self):
         """
             Test Api returns message Name required. Invalid Entry
@@ -104,8 +106,9 @@ class TestOrders(unittest.TestCase):
         update_res = self.client.put('api/v1/orders/1', data=json.dumps(self.sample_case_name_empty), content_type='application/json')
         self.assertEqual(json.loads(update_res.data)["Message"],"Name required. Invalid Entry")
         self.assertEqual(update_res.status_code, 400)
-    
-    def test_orders_fetched_successfully(self):
+
+   
+    def test_all_orders_fetched_successfully(self):
         """
             Test All order returns
         """
@@ -117,9 +120,6 @@ class TestOrders(unittest.TestCase):
         self.assertEqual(get_order.status_code, 200)
         self.assertEqual(json.loads(get_order.data)["Message"],"Orders were successfully Retrieved")
         
-    
-
-
     
 if __name__ == '__main__':
     unittest.main()

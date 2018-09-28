@@ -11,7 +11,7 @@ from app.resources.order_resources import Views
 def create_app(config_name):
     '''Function that creates flask app depending on the configuration passed'''
     
-    #initialize flask app
+    #instanciate  flask app
     app = Flask(__name__)
 
     #initialize api 
