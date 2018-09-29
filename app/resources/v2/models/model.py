@@ -1,13 +1,10 @@
 import datetime
 from flask import jsonify, sessions, request
-from flask_restful import Resource, reqparse
-
-
 import psycopg2
 
 from db import connect
 
-class Orders(Resource):
+class Order(object):
     """This class defines the Order Models"""
     def __init__(self, name=None, price=None, quantity=None):
         """ A method constructor to define Order"""
@@ -83,10 +80,3 @@ class Orders(Resource):
     
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
-
-
-                
-        
-
-
-

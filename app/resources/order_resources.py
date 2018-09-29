@@ -4,7 +4,7 @@ from flask_restful import Resource, reqparse
 #import models module
 from app.models import Orders,orders
 
-#creat an instance of the Class
+#create an instance of the Class
 order_list = Orders()
 
 class Views(Resource):
