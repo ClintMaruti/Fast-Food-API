@@ -27,7 +27,7 @@ class Order(object):
             print(error)
 
     def insert_order(self, order_id, name, price, quantity):
-        """ Model function to Insert a new Order int list """
+        """ Model function to Insert a new Order into list """
         sql = ("""INSERT INTO orders (order_id, name, price, quantity)
                     VALUES (%s, %s, %s, %s); """,
                     (self.order_id,self.name,self.price,self.quantity))
