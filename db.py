@@ -42,6 +42,7 @@ def connect():
         if conn is not None:
             print('Database connected Successfully.')
             print('Tables Created Successfuly.')
+    return conn
 
 
 
