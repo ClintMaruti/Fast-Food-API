@@ -55,4 +55,12 @@ class OrderResourcesV2(Resource):
             response = jsonify({"Message: ": "Your Order was placed successfully!"})
             response.status_code = 201
             return response
-    
+
+    def get(self):
+        """
+            Endpoint to place an order for food
+        """
+        #instanciate class
+        orderObject = Order()
+        order_query = orderObject.all_order()
+        return order_query
