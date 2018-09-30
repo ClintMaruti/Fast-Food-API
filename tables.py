@@ -16,4 +16,13 @@ tb2 = """ CREATE TABLE IF NOT EXISTS users(
 
             );"""
 
-queries = [tb1, tb2]
+tb3 = """ CREATE TABLE IF NOT EXISTS menu(
+            menu_id SERIAL PRIMARY KEY NOT NULL,
+            name VARCHAR(255) NOT NULL,
+            price REAL NOT NULL,
+            description VARCHAR(255) NOT NULL,
+            date TIMESTAMP
+
+            );"""
+
+queries = [tb1, tb2, tb3]

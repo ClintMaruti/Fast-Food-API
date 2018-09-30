@@ -8,6 +8,7 @@ from ...models.model import User
 
 class UserResource(Resource):
     parser = reqparse.RequestParser()
+
     parser.add_argument("name",type=str,required=True, help="Name cannot be blank!")
     parser.add_argument("email", type=str, required=True, help="Email required!")
     parser.add_argument("admin", type=bool, required=True, help="Role cannot be left blank")

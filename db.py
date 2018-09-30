@@ -32,7 +32,7 @@ def connect():
 
         # cur.execute('INSERT INTO users (user_name,email,password,role,token) VALUES(%s, %s, %s,%s,%s)', (name, email, password,role,token))
 
-        # cur.execute('DROP TABLE users')
+        # cur.execute('DROP TABLE orders')
         
         print('PostgreSQL database version:')
         cur.execute('SELECT version()')

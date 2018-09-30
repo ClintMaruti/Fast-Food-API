@@ -30,6 +30,7 @@ class OrderResourcesV2(Resource):
         name = data['name']
         price = data['price']
         quantity = data['quantity']
+        # status = data['status']
 
         # #inisialize User class from Models
         # orderObject = Order()
@@ -50,15 +51,18 @@ class OrderResourcesV2(Resource):
             return response
 
         else:
-            order = Order(name,price,quantity)
-            order.place_order()
+            #Instanciate the class
+            orderObject = Order(name,price,quantity)
+
+            orderObject.place_order()
+
             response = jsonify({"Message: ": "Your Order was placed successfully!"})
             response.status_code = 201
             return response
 
     def get(self):
         """
-            Endpoint to place an order for food
+            Endpoint to fetch all order for food
         """
         #instanciate class
         orderObject = Order()

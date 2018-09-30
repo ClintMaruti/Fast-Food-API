@@ -15,6 +15,7 @@ from app.resources.v2.resources.users.orders import OrderResourcesV2
 # from app.resources.v2.resources.views import SpecificOrderV2
 from app.resources.v2.resources.users.user import UserResource
 from app.resources.v2.resources.users.user import UserLogin
+from app.resources.v2.resources.users.menu import MenuResources
 
 
 def create_app(config_name):
@@ -46,5 +47,6 @@ def create_app(config_name):
     #register endpoiny for challenge 3 user
     api.add_resource(UserResource,'/api/v2/users/')
     api.add_resource(UserLogin, '/api/v2/users/')
+    api.add_resource(MenuResources, '/api/v2/menu/')
 
     return app

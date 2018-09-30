@@ -10,7 +10,6 @@ class Order(object):
     """This class defines the Order Models"""
     def __init__(self, name=None, price=None, quantity=None, date=None):
         """ A method constructor to define Order"""
-
         self.name = name
         self.price = price
         self.quantity = quantity
@@ -18,7 +17,7 @@ class Order(object):
 
     def place_order(self):
         """ Model function to place an order for food """
-        sql = "INSERT INTO orders (name, price, quantity, date) VALUES(%s, %s, %s, %s)", (self.name, self.price, self.quantity, self.date)
+        sql = "INSERT INTO orders (name, price,quantity) VALUES(%s, %s, %s, %s)", (self.name, self.price, self.quantity)
 
         try:
 
@@ -179,3 +178,45 @@ class User(object):
             return response
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
+
+class FoodMenu(object):
+    """model class For menu"""
+    def __init__(self, name=None, price=None, description=None, date=None):
+        """Contsructor Class"""
+        self.name = name
+        self.price = price
+        self.description = description
+        self.date = date
+
+    def insert_menu(self):
+        """class method to insert new menu to the database"""
+        try:
+            connection = connect()
+            cur = connection.cursor()
+            #Execute query
+            cur.execute('INSERT INTO menu (name,price,description,date) VALUES(%s,%s, %s, %s)', (self.name, self.price, self.description, self.date))
+
+            cur.close()
+            connection.commit()
+
+            response = jsonify({"Message": "Menu Updated Successfully!"})
+            return response
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+
+    def get_menu(self):
+        """Method That fetches the menu from the database"""
+        try:
+            connectioin = connect()
+            cur = connectioin.cursor()
+            #Execute query
+            cur.execute('SELECT * FROM menu')
+
+            all = cur.fetchall()
+            return all
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            
+
+        
+
