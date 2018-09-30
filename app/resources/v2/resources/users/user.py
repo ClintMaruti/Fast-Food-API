@@ -59,7 +59,7 @@ class UserLogin(Resource):
         """
             This function let's a user login into the app
         """
-        data = UserResource.parser.parse_args()
+        data = UserLogin.parser.parse_args()
 
         username = data['name']
         password = data['password']

@@ -16,8 +16,8 @@ class Order(object):
         self.quantity = quantity
         self.date = datetime.now().replace(second=0, microsecond=0)
 
-    def insert_order(self):
-        """ Model function to Insert a new Order int list """
+    def place_order(self):
+        """ Model function to place an order for food """
         sql = "INSERT INTO orders (name, price, quantity, date) VALUES(%s, %s, %s, %s)", (self.name, self.price, self.quantity, self.date)
 
         try:
