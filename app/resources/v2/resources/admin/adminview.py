@@ -2,7 +2,7 @@ from flask import request, jsonify
 from flask_restful import Resource, reqparse
 
 #import models module
-from ..models.model import Order
+from ...models.model import Order
 
 
 #instanciate class
@@ -66,16 +66,13 @@ class OrderResourcesV2(Resource):
             response = jsonify({"Message: ": "Your Order was placed successfully!"})
             response.status_code = 201
             return response
-class SpecificOrderV2(Resource):
+# class SpecificOrderV2(Resource):
     
-    def get(self, order_id):
-        for order in menu.order_id(order_id):
-            if order != order_id:
-                response = jsonify({"Message": 'The Order Not available!'})
-                response.status_code = 200
-                return order
-            
-        
-    
+#     # def get(self, order_id):
+#     #     # order = Order.order_id(order_id)
+
+#     #     if order:
+#     #         return {"Order": order.order_payload()}
+#     #     return {'message': "Not found"}, 404
 
 

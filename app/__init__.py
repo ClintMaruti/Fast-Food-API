@@ -9,6 +9,14 @@ from app.resources.order_resources import OrderResources
 from app.resources.order_resources import SpecificOrder
 from app.resources.order_resources import Views
 
+#challenge 3 imports
+from app.resources.v2.resources.views import OrderResourcesV2
+from app.resources.v2.resources.views import ViewsV2
+from app.resources.v2.resources.views import SpecificOrderV2
+from app.resources.v2.resources.users.user import UserResource
+
+
+
 def create_app(config_name):
     '''Function that creates flask app depending on the configuration passed'''
     
@@ -25,9 +33,17 @@ def create_app(config_name):
  
     connect()
 
-    #register endpoints
+    #register endpoints challenge 2
     api.add_resource(Views, '/')
     api.add_resource(OrderResources, '/api/v1/orders/')
     api.add_resource(SpecificOrder,'/api/v1/orders/<int:order_id>' )
+
+    #register endpoints for challenge 3
+    api.add_resource(ViewsV2,'/')
+    api.add_resource(OrderResourcesV2, '/api/v2/orders/')
+    api.add_resource(SpecificOrderV2,'/api/v2/orders/')
+
+    #register endpoiny for challenge 3 user
+    api.add_resource(UserResource,'/api/v2/users/')
 
     return app
