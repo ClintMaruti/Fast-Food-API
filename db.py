@@ -3,13 +3,13 @@ import psycopg2
 from config import Config
 import sys
 
-ft = Config()
+
+from tables import queries
+
 
 def connect():
     conn = None
     try:
-        #read connection parameters
-        params = ft.config()
 
         print("Connecting to the PostgreSQL database...")
         conn = psycopg2.connect(host="localhost", database="alpha", user="machiatto", password="admin@234" )
@@ -17,15 +17,23 @@ def connect():
         #create cursor
         cur = conn.cursor()
 
-         # create table one by one
-        cur.execute("""CREATE TABLE orders(
-            order_id serial PRIMARY KEY,
-            name VARCHAR NOT NULL,
-            price VARCHAR NOT NULL,
-            quantity VARCHAR NOT NULL);""")
+        
 
+        # create table one by one
+        for query in queries:
+            cur.execute(query)
 
+        # #load sample data
+        # name = 'Clint'
+        # email = 'cmaruti93@gmail.com'
+        # password = 'admin'
+        # token = 'laksjdbfkjab'
+        # role = 1
 
+        # cur.execute('INSERT INTO users (user_name,email,password,role,token) VALUES(%s, %s, %s,%s,%s)', (name, email, password,role,token))
+
+        # cur.execute('DROP TABLE users')
+        
         print('PostgreSQL database version:')
         cur.execute('SELECT version()')
 
