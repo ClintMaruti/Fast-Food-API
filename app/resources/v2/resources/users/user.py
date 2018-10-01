@@ -1,5 +1,7 @@
-from flask import request, jsonify, json, abort
+from flask import request, jsonify, json, abort, make_response
 from flask_restful import Resource, reqparse
+import jwt
+from datetime import datetime
 
 #import models module
 from ...models.model import User
@@ -65,6 +67,7 @@ class UserLogin(Resource):
         username = data['name']
         password = data['password']
 
+ 
         #inisialize User class from Models
         userObject = User()
 
@@ -75,9 +78,25 @@ class UserLogin(Resource):
             response.status_code = 403
             return response
         return jsonify({"Message: ": "Login Successful!"})
-        
 
+        # def generate_token(self):
+        #     """
+        #     Generates the Auth Token
+        #     :return: string
+        #     """
+            
+        #     try:
+        #         payload = {
+        #             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=15),
+        #             'iat': datetime.datetime.utcnow(),
+        #             'sub': user_id
+        #         }
+        #         return jwt.encode(
+        #             payload,
+        #             app.config.get('SECRET_KEY'),
+        #             algorithm='HS256'
+        #         )
+        #     except Exception as e:
+        #         return e
 
-        
-
-
+          

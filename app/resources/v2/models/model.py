@@ -15,6 +15,7 @@ class Order(object):
         self.quantity = quantity
         self.date = datetime.now().replace(second=0, microsecond=0)
 
+
     def place_order(self):
         """ Model function to place an order for food """
         sql = "INSERT INTO orders (name, price,quantity) VALUES(%s, %s, %s, %s)", (self.name, self.price, self.quantity)
@@ -24,14 +25,16 @@ class Order(object):
             connection = connect()
             cur = connection.cursor()
             #Execute query
-            cur.execute(sql)
+            cur.execute('INSERT INTO orders (name,price,quantity,date) VALUES(%s,%s, %s, %s)', (self.name, self.price, self.quantity, self.date))
             # close communication with the PostgreSQL database server
             cur.close()
             # commit the changes
-            cur.commit()
+            connection.commit()
+            response = jsonify({"Message": "Order Updated Successfully"})
+            return response
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
-
+    
 
     def all_order(self):
 
@@ -145,8 +148,7 @@ class User(object):
 
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
-
-
+            
     def getallUser(self):
         """
             Fetchs and returns all users from the database
@@ -186,8 +188,9 @@ class FoodMenu(object):
         self.name = name
         self.price = price
         self.description = description
-        self.date = date
-
+        self.date = datetime.now().replace(second=0, microsecond=0)
+    
+    
     def insert_menu(self):
         """class method to insert new menu to the database"""
         try:

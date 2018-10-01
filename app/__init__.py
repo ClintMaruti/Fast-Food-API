@@ -13,8 +13,8 @@ from app.resources.order_resources import Views
 from app.resources.v2.resources.users.orders import OrderResourcesV2
 # from app.resources.v2.resources.users. import ViewsV2
 # from app.resources.v2.resources.views import SpecificOrderV2
-from app.resources.v2.resources.users.user import UserResource
-from app.resources.v2.resources.users.user import UserLogin
+# from app.resources.v2.resources.users.user import User
+# from app.resources.v2.resources.users.user import UserLogin
 from app.resources.v2.resources.users.menu import MenuResources
 
 
@@ -45,8 +45,8 @@ def create_app(config_name):
     # api.add_resource(SpecificOrderV2,'/api/v2/orders/')
 
     #register endpoiny for challenge 3 user
-    api.add_resource(UserResource,'/api/v2/users/')
-    api.add_resource(UserLogin, '/api/v2/users/')
+    # api.add_resource(UserResource,'/api/v2/users/')
+    # api.add_resource(UserLogin, '/api/v2/users/')
     api.add_resource(MenuResources, '/api/v2/menu/')
 
     return app

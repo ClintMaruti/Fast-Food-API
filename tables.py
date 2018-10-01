@@ -3,7 +3,9 @@ tb1 =  """ CREATE TABLE IF NOT EXISTS orders(
             order_id serial PRIMARY KEY,
             name VARCHAR NOT NULL,
             price REAL NOT NULL,
-            quantity REAL NOT NULL);"""
+            quantity REAL NOT NULL,
+            date TIMESTAMP
+            );"""
 
 
 tb2 = """ CREATE TABLE IF NOT EXISTS users(

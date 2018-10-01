@@ -14,6 +14,7 @@ class ViewsV2(Resource):
                     <p>A prototype API for Fast Food Fast app.</p>'''
     
 class OrderResourcesV2(Resource):
+    """Flask restful class that hold the routes function for the Menu Endpoints"""
     parser = reqparse.RequestParser()
 
     parser.add_argument("name",type=str,required=True, help="Name cannot be blank!")
@@ -30,35 +31,40 @@ class OrderResourcesV2(Resource):
         name = data['name']
         price = data['price']
         quantity = data['quantity']
-        # status = data['status']
 
         # #inisialize User class from Models
         # orderObject = Order()
 
-        if name == "":
-            response = jsonify({"Message": 'Name required. Invalid Order!'})
-            response.status_code = 400
-            return response
+        # if name == "":
+        #     response = jsonify({"Message": 'Name required. Invalid Order!'})
+        #     response.status_code = 400
+        #     return response
 
-        elif price <= 0:
-            response = jsonify({"Message": "Price must be greater than zero!"})
-            response.status_code = 400
-            return response
+        # elif price <= 0:
+        #     response = jsonify({"Message": "Price must be greater than zero!"})
+        #     response.status_code = 400
+        #     return response
 
-        elif quantity <= 0:
-            response = jsonify({"Message": "Quantity cannot be less than zero!"})
-            response.status_code = 400
-            return response
+        # elif quantity <= 0:
+        #     response = jsonify({"Message": "Quantity cannot be less than zero!"})
+        #     response.status_code = 400
+        #     return response
 
-        else:
-            #Instanciate the class
-            orderObject = Order(name,price,quantity)
+        # else:
+        #     #Instanciate the class
+        #     orderObject = Order(name,price,quantity)
 
-            orderObject.place_order()
+        #     orderObject.place_order()
 
-            response = jsonify({"Message: ": "Your Order was placed successfully!"})
-            response.status_code = 201
-            return response
+        #     response = jsonify({"Message: ": "Your Order was placed successfully!"})
+        #     response.status_code = 201
+        #     return response
+
+        order = Order(name,price,quantity)
+        order.place_order()
+        response = jsonify({"Message:": "Your Order was placed successfully!"})
+        response.status_code = 201
+        return response
 
     def get(self):
         """

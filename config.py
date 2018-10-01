@@ -5,6 +5,8 @@ from configparser import ConfigParser
 class Config():
     """Base config class"""
     DEBUG = False
+    SECRET_KEY= "my_secret_key"
+
     POSTGRES_DATABASE_URI = os.getenv('DATABASE_URL')
    
  
