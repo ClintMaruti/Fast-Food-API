@@ -1,33 +1,34 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import Flask
 from flask import jsonify, sessions, request
 from passlib.apps import custom_app_context as pwd_context
-import jwt
-
+from itsdangerous import (TimedJSONWebSignatureSerializer
+                          as Serializer, BadSignature, SignatureExpired)
 import psycopg2
 
 from db import connect
 
 class Order(object):
     """This class defines the Order Models"""
-    def __init__(self, name=None, price=None, quantity=None, date=None):
+    def __init__(self, name=None, price=None, quantity=None,status = None,date=None):
         """ A method constructor to define Order"""
         self.name = name
         self.price = price
         self.quantity = quantity
+        self.status = status
         self.date = datetime.now().replace(second=0, microsecond=0)
 
 
     def place_order(self):
         """ Model function to place an order for food """
-        sql = "INSERT INTO orders (name, price,quantity) VALUES(%s, %s, %s, %s)", (self.name, self.price, self.quantity)
+        sql = "INSERT INTO orders (name, price,quantity,status) VALUES(%s, %s, %s, %s, %s)", (self.name, self.price, self.quantity,self.date)
 
         try:
 
             connection = connect()
             cur = connection.cursor()
             #Execute query
-            cur.execute('INSERT INTO orders (name,price,quantity,date) VALUES(%s,%s, %s, %s)', (self.name, self.price, self.quantity, self.date))
+            cur.execute('INSERT INTO orders (name,price,quantity,status,date) VALUES(%s,%s, %s, %s, %s)', (self.name, self.price, self.quantity, self.status, self.date))
             # close communication with the PostgreSQL database server
             cur.close()
             # commit the changes
@@ -39,7 +40,7 @@ class Order(object):
     
 
     def all_order(self):
-
+        """This function fetchs all orders"""
         try:
                 connection = connect()
                 cur = connection.cursor()
@@ -52,50 +53,44 @@ class Order(object):
             print(error)
 
 
-    def order_id(self, order_id):
-        """ Model function to GET a specific order list """
+    def order_id(self,id):
+        """ Model function to GET a specific order list by Id"""
 
         try:
-
             connection = connect()
-            cur = connection.cursor()
-                
-            cur.execute("SELECT * FROM orders WHERE WHERE id=%s", (order_id))
-
-            orderID = cur.fetchall()
-            return orderID
-        
+            cur = connection.cursor()                
+            cur.execute("SELECT order_id, name, price, quantity, status date FROM orders WHERE order_id='{}'".format(id))
+            order_by_ID = cur.fetchone()
+            # print(order_by_ID)
+            return order_by_ID       
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
     
-    def order_update(self, order_id, name, price, quantity):
+    def order_update(self,order_id,status):
         """ Model function to Update a specific order list """
         sql = ("""UPDATE orders
-                SET name = %s, price = %s, quantity = %s
+                SET status = %s
                 WHERE order_id = %s""",
-                (self.order_id,self.name,self.price,self.quantity))
+                (status, order_id))
         try:
             connection = connect()
             cur = connection.cursor()
 
             cur.execute(sql)
+
+            cur.close()
+            # commit the changes
+            connection.commit()
+
             orderUpdate = cur.fetchone
             return orderUpdate
     
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
     
-    def order_payload(self):    
-
-        return dict(
-            name =  self.name,
-            price =  self.price,
-            quantity =  self.quantity,
-        )
-    
-
+########### User Section ###########
 class User(object):
-    def __init__(self,password,name=None, email=None, admin=None, date=None):
+    def __init__(self,password,name, email=None, admin=None, date=None):
         self.name = name
         self.email = email
         self.password = password
@@ -112,7 +107,7 @@ class User(object):
     
     def getusername(self, username):
         """
-            Fetchs userobject from the database
+            Fetchs userobject by name from the database
         """
         try:
             connection = connect()
@@ -125,37 +120,35 @@ class User(object):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return False
-        
+
+ 
     def login(self):
         """
             This function verifies the user name and password for successful Login
         """
-
         try:
             connection = connect()
             cur = connection.cursor()
             #Exexcute Query
             cur.execute("SELECT user_name, password FROM users WHERE user_name='{}'".format(self.name))
             userobject = cur.fetchone()
-            print("Message:", self.password, userobject)
+            # print("Message:", self.password, userobject)
             pass_verify = pwd_context.verify(self.password,userobject[1])
-            print(pass_verify)
+            # print(pass_verify)
             if userobject[0] == self.name and pass_verify == True:
                 print("test")
-                response = {"Message: ": "Login Successful"}
+                
+                response = jsonify({"Message: ": "Login Successful"})              
                 return response
             
         except (Exception, psycopg2.DatabaseError) as error:
             
             return jsonify({"Message: ": str(error)})
-                                                
-
 
     def getallUser(self):
         """
             Fetchs and returns all users from the database
         """
-
         try:
             connection = connect()
             cur = connection.cursor()
@@ -182,7 +175,25 @@ class User(object):
             return response
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
+    
 
+    def generate_auth_token(self, expiration = 600):
+        s = Serializer('secretkey', expires_in = expiration)
+        return s.dumps({ 'id': self.name })
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer('secretkey')
+        try:
+            data = s.loads(token)
+        except SignatureExpired:
+            return None # valid token, but expired
+        except BadSignature:
+            return None # invalid token
+        
+        return jsonify({"Message":"Invalid"})
+
+########### Food Menu ###########
 class FoodMenu(object):
     """model class For menu"""
     def __init__(self, name=None, price=None, description=None, date=None):

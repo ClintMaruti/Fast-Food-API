@@ -1,13 +1,15 @@
 from flask import request, jsonify, json, abort, make_response
 from passlib.apps import custom_app_context as pwd_context
 from flask_restful import Resource, reqparse
-import jwt
+from flask_httpauth import HTTPBasicAuth
 from datetime import datetime
 from flask_jwt_extended import create_access_token
+
 #import models module
 from ...models.model import User
 
 
+auth = HTTPBasicAuth()
 
 class UserResource(Resource):
     parser = reqparse.RequestParser()
@@ -21,11 +23,12 @@ class UserResource(Resource):
         """
             This function fetchs all users from the database and returns
         """
-        userObject = User(password=None)
+        userObject = User(name=None,password=None)
         json_data = userObject.getallUser()
 
         return json_data
 
+ 
     def post(self):
         """
             This function adds a user into the database and assigns them a role
@@ -37,7 +40,7 @@ class UserResource(Resource):
         admin = data['admin']
         password = data['password']
 
-        userObject = User(password)
+        userObject = User(username,password)
 
         if userObject.getusername(username) == False:
             response = jsonify({'message': 'The User you requested already exists!'})
@@ -56,6 +59,7 @@ class UserLogin(Resource):
     parser.add_argument("name",type=str,required=True, help="Name cannot be blank!")
     parser.add_argument("password", type=str, required=True, help="You haven't entered your password!")
 
+    
     def post(self):
         """
             This function let's a user login into the app
@@ -68,6 +72,6 @@ class UserLogin(Resource):
  
         #initialize User class from Models
         userObject = User(password,username)
-
         response = userObject.login()
-        return response
+        token = userObject.generate_auth_token()
+        return jsonify ({"Token":token.decode('UTF-8')})

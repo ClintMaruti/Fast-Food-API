@@ -5,13 +5,11 @@ from flask import jsonify, sessions
 class Orders(object):
   """ This class defines the Order Models"""
   def __init__(self, name=None, price=None, quantity=None):
-    """ A method constructor to define Order"""
-  
+    """ A method constructor to define Order""" 
     self.id = len(orders) + 1
     self.name = name
     self.price = price
     self.quantity = quantity
-
     
   def all_order(self):
     """ Model function that Fetchs all orders """

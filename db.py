@@ -17,8 +17,6 @@ def connect():
         #create cursor
         cur = conn.cursor()
 
-        
-
         # create table one by one
         for query in queries:
             cur.execute(query)

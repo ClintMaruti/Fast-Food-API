@@ -1,8 +1,11 @@
 from flask import request, jsonify
 from flask_restful import Resource, reqparse
+from flask_httpauth import HTTPBasicAuth
 
 #import models module
 from ...models.model import FoodMenu
+
+auth = HTTPBasicAuth()
 
 class MenuResources(Resource):
     """Flask restful class that hold the routes function for the Menu Endpoints"""
@@ -21,6 +24,7 @@ class MenuResources(Resource):
 
         return jsonify({'Menu': menu_query})
     
+    @auth.login_required
     def post(self):
         """Function to Add a meal option to the menu"""
         data = MenuResources.parser.parse_args()

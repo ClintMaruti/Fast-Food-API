@@ -4,6 +4,7 @@ tb1 =  """ CREATE TABLE IF NOT EXISTS orders(
             name VARCHAR NOT NULL,
             price REAL NOT NULL,
             quantity REAL NOT NULL,
+            status VARCHAR NOT NULL,
             date TIMESTAMP
             );"""
 

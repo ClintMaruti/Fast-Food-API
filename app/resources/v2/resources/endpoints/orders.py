@@ -19,6 +19,7 @@ class OrderResourcesV2(Resource):
 
     parser.add_argument("name",type=str,required=True, help="Name cannot be blank!")
     parser.add_argument("price",type=int,required=True, help='Price cannot be below zero')
+    parser.add_argument("status",type=str,required=True, help='status must be included')
     parser.add_argument("quantity",type=int,required=True, help="Quantity cannot be below zero")
 
 
@@ -30,10 +31,8 @@ class OrderResourcesV2(Resource):
 
         name = data['name']
         price = data['price']
+        status = data['status']
         quantity = data['quantity']
-
-        # #inisialize User class from Models
-        # orderObject = Order()
 
         if name == "":
             response = jsonify({"Message": 'Name required. Invalid Order!'})
@@ -52,17 +51,11 @@ class OrderResourcesV2(Resource):
 
         else:
             #Instanciate the class
-            orderObject = Order(name,price,quantity)
+            orderObject = Order(name,price,quantity,status)
             orderObject.place_order()
             response = jsonify({"Message: ": "Your Order was placed successfully!"})
             response.status_code = 201
             return response
-
-        # order = Order(name,price,quantity)
-        # order.place_order()
-        # response = jsonify({"Message:": "Your Order was placed successfully!"})
-        # response.status_code = 201
-        # return response
 
     def get(self):
         """
@@ -75,6 +68,33 @@ class OrderResourcesV2(Resource):
 
 class OrderSpecificResourcesV2(Resource):
     """
-        Class that holds endpoints to get single order abd update single order
+        Class that holds endpoints to get single order and update single order
     """
-    pass
+    parser = reqparse.RequestParser()
+
+    parser.add_argument("status",type=str,required=True, help='status must be included')
+    
+
+    def get(self, order_id):
+        """
+            Endpoint to Get a specific list of order
+        """
+        orderObject = Order()
+        result = orderObject.order_id(order_id)
+        response = jsonify({"Message: ": "Orders Retrieved","Orders": result})
+        response.status_code = 201
+        return response
+    
+    def post(self, order_id):
+        """
+            Endpoint to Update order status
+        """
+        data = OrderSpecificResourcesV2.parser.parse_args()
+
+        status = data['status']
+
+        orderObject = Order()
+        result = orderObject.order_update(order_id,status)
+        response = jsonify({"Message: ": "Orders Updated Successfully", "Update: ": result})
+        response.status_code = 201
+        return response
