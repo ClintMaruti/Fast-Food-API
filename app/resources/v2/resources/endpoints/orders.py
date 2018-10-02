@@ -1,10 +1,12 @@
 from flask import request, jsonify
 from flask_restful import Resource, reqparse
+from flask_httpauth import HTTPBasicAuth
 
 #import models module
 from ...models.model import Order
 
 
+auth = HTTPBasicAuth()
 class ViewsV2(Resource):
     def get(self):
         """
@@ -57,6 +59,7 @@ class OrderResourcesV2(Resource):
             response.status_code = 201
             return response
 
+    @auth.login_required
     def get(self):
         """
             Endpoint to fetch all order for food
@@ -74,7 +77,7 @@ class OrderSpecificResourcesV2(Resource):
 
     parser.add_argument("status",type=str,required=True, help='status must be included')
     
-
+    @auth.login_required
     def get(self, order_id):
         """
             Endpoint to Get a specific list of order
@@ -84,7 +87,8 @@ class OrderSpecificResourcesV2(Resource):
         response = jsonify({"Message: ": "Orders Retrieved","Orders": result})
         response.status_code = 201
         return response
-    
+        
+    @auth.login_required
     def post(self, order_id):
         """
             Endpoint to Update order status

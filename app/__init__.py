@@ -18,6 +18,7 @@ from app.resources.v2.resources.endpoints.user import User
 from app.resources.v2.resources.endpoints.user import UserResource
 from app.resources.v2.resources.endpoints.user import UserLogin
 from app.resources.v2.resources.endpoints.menu import MenuResources
+from app.resources.v2.resources.endpoints.user import GetAllUsersResources
 
 
 
@@ -26,7 +27,8 @@ def create_app(config_name):
     
     #initialize flask app
     app = Flask(__name__, instance_relative_config=True)
-
+    app.config.from_object(app_config)
+    
     app.config['SECRET-KEY'] = 'secretkey'
 
     #initialize api 
@@ -48,6 +50,7 @@ def create_app(config_name):
 
     #register endpoiny for challenge 3 user
     api.add_resource(UserResource,'/api/v2/signup/')
+    api.add_resource(GetAllUsersResources,'/api/v2/users/')
     api.add_resource(UserLogin, '/api/v2/login/')
     api.add_resource(MenuResources, '/api/v2/menu/')
 
