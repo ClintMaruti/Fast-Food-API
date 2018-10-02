@@ -16,6 +16,12 @@ class TestDevelopmentConfig(unittest.TestCase):
             "quantity": 5,
             "status" : "Delivered"
         }
+        self.name_missing = {
+            "name": "",
+            "price": 800,
+            "quantity": 5,
+            "status" : "Delivered"
+        }
     def tearDown(self):
         self.api_test_client = None
     
@@ -25,3 +31,10 @@ class TestDevelopmentConfig(unittest.TestCase):
         """
         res = self.client.post('api/v2/orders/', data=json.dumps(self.correct_order),content_type='application/json')
         self.assertEqual(json.loads(res.data)["Message: "],"Your Order was placed successfully!")
+    
+    def test_place_order_with_missing_name(self):
+        """
+            Test place an order with a missing name
+        """
+        res = self.client.post('api/v2/orders/', data=json.dumps(self.name_missing),content_type='application/json')
+        self.assertEqual(json.loads(res.data)["Message"],"Name required. Invalid Order!")
