@@ -13,9 +13,7 @@ tb2 = """ CREATE TABLE IF NOT EXISTS users(
             user_name VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL,
             password VARCHAR(255) NOT NULL,
-            admin BOOLEAN NOT NULL,
-            token VARCHAR(255) NOT NULL
-
+            admin BOOLEAN NOT NULL
             );"""
 
 tb3 = """ CREATE TABLE IF NOT EXISTS menu(

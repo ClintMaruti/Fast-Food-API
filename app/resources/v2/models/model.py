@@ -1,6 +1,8 @@
 from datetime import datetime
+from flask import Flask
 from flask import jsonify, sessions, request
 from passlib.apps import custom_app_context as pwd_context
+import jwt
 
 import psycopg2
 
@@ -93,24 +95,14 @@ class Order(object):
     
 
 class User(object):
-    def __init__(self, name=None, email=None, password=None, admin=None, token=None, date=None):
+    def __init__(self,password,name=None, email=None, admin=None, date=None):
         self.name = name
         self.email = email
         self.password = password
         self.admin = admin
-        self.token = token
         self.date = datetime.now().replace(second=0, microsecond=0)
-    
-    def user_jsonloads(self):
-        return dict(
-            username= self.name,
-            email=self.email,
-            password=self.password,
-            admin = self.admin,
-            token = self.token,
-            date = self.date,
-        )
-
+        print(self.password)
+  
     def hash_password(self, password):
         hashlized = self.password_hash = pwd_context.encrypt(password)
         return hashlized
@@ -118,37 +110,47 @@ class User(object):
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
     
-    def getusername(self, name):
+    def getusername(self, username):
         """
-            Fetchs username
+            Fetchs userobject from the database
         """
         try:
             connection = connect()
             cur = connection.cursor()
             #Execute query
-            cur.execute('SELECT * FROM users WHERE user_name=%s',(name))
-            name = cur.fetchone()
-            if name:
-                return name
+            cur.execute("SELECT user_name FROM users WHERE user_name='{}'".format(username))
+            userobject = cur.fetchone()
+            if not userobject:
+                return True
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
+            return False
+        
+    def login(self):
+        """
+            This function verifies the user name and password for successful Login
+        """
 
-    def getpasword(self, password):
-        """
-            Fetchs passwords for verication during login
-        """
         try:
             connection = connect()
             cur = connection.cursor()
-            #Esxecute Query
-            cur.execute('SELECT * FROM users WHERE password=%s', (password))
-            password = cur.fetchone()
-            if password:
-                return password
-
-        except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            #Exexcute Query
+            cur.execute("SELECT user_name, password FROM users WHERE user_name='{}'".format(self.name))
+            userobject = cur.fetchone()
+            print("Message:", self.password, userobject)
+            pass_verify = pwd_context.verify(self.password,userobject[1])
+            print(pass_verify)
+            if userobject[0] == self.name and pass_verify == True:
+                print("test")
+                response = {"Message: ": "Login Successful"}
+                return response
             
+        except (Exception, psycopg2.DatabaseError) as error:
+            
+            return jsonify({"Message: ": str(error)})
+                                                
+
+
     def getallUser(self):
         """
             Fetchs and returns all users from the database
@@ -171,7 +173,7 @@ class User(object):
             connection = connect()
             cur = connection.cursor()
             #Execute query
-            cur.execute('INSERT INTO users (user_name,email,password,admin,token) VALUES(%s, %s, %s,%s,%s)', (self.name, self.email, self.password,self.admin,self.token))
+            cur.execute('INSERT INTO users (user_name,email,password,admin) VALUES(%s, %s, %s,%s)', (self.name, self.email, self.password,self.admin))
 
             cur.close()
             connection.commit()
@@ -220,6 +222,3 @@ class FoodMenu(object):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             
-
-        
-

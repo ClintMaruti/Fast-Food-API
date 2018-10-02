@@ -4,3 +4,4 @@ Env/
 __pycache__/
 .pyc*
 .pytest_cache
+.travis.yml

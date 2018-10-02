@@ -20,7 +20,7 @@ class MenuResources(Resource):
         
 
         return jsonify({'Menu': menu_query})
-
+    
     def post(self):
         """Function to Add a meal option to the menu"""
         data = MenuResources.parser.parse_args()

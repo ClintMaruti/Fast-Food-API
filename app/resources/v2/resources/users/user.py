@@ -1,8 +1,9 @@
 from flask import request, jsonify, json, abort, make_response
+from passlib.apps import custom_app_context as pwd_context
 from flask_restful import Resource, reqparse
 import jwt
 from datetime import datetime
-
+from flask_jwt_extended import create_access_token
 #import models module
 from ...models.model import User
 
@@ -14,14 +15,13 @@ class UserResource(Resource):
     parser.add_argument("name",type=str,required=True, help="Name cannot be blank!")
     parser.add_argument("email", type=str, required=True, help="Email required!")
     parser.add_argument("admin", type=bool, required=True, help="Role cannot be left blank")
-    parser.add_argument("token", type=str, required=True, help="Token cannot be left blank")
     parser.add_argument("password", type=str, required=True, help="Password canot be left blank")
 
     def get(self):
         """
             This function fetchs all users from the database and returns
         """
-        userObject = User()
+        userObject = User(password=None)
         json_data = userObject.getallUser()
 
         return json_data
@@ -35,21 +35,19 @@ class UserResource(Resource):
         username = data['name']
         email = data['email']
         admin = data['admin']
-        token = data['token']
         password = data['password']
 
-        userObject = User()
+        userObject = User(password)
 
-        if userObject.getusername(username):
+        if userObject.getusername(username) == False:
             response = jsonify({'message': 'The User you requested already exists!'})
             response.status_code = 400
             return response
 
 
         hashed_password = userObject.hash_password(password)
-        token = '46465465'
 
-        userObject = User(username,email,hashed_password,admin,token)
+        userObject = User(username,email,hashed_password,admin)
         userObject.addUser()
         return ({"Message: ": "User added successfuly!"})
 
@@ -68,35 +66,8 @@ class UserLogin(Resource):
         password = data['password']
 
  
-        #inisialize User class from Models
-        userObject = User()
+        #initialize User class from Models
+        userObject = User(password,username)
 
-        hashed_password = hashed_password = userObject.hash_password(password)
-        
-        if username is not userObject.getusername or hashed_password is not userObject.getpasword:
-            response = jsonify({"Message: ": "Login Failed, Check your username or password!"})
-            response.status_code = 403
-            return response
-        return jsonify({"Message: ": "Login Successful!"})
-
-        # def generate_token(self):
-        #     """
-        #     Generates the Auth Token
-        #     :return: string
-        #     """
-            
-        #     try:
-        #         payload = {
-        #             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=15),
-        #             'iat': datetime.datetime.utcnow(),
-        #             'sub': user_id
-        #         }
-        #         return jwt.encode(
-        #             payload,
-        #             app.config.get('SECRET_KEY'),
-        #             algorithm='HS256'
-        #         )
-        #     except Exception as e:
-        #         return e
-
-          
+        response = userObject.login()
+        return response

@@ -35,36 +35,34 @@ class OrderResourcesV2(Resource):
         # #inisialize User class from Models
         # orderObject = Order()
 
-        # if name == "":
-        #     response = jsonify({"Message": 'Name required. Invalid Order!'})
-        #     response.status_code = 400
-        #     return response
+        if name == "":
+            response = jsonify({"Message": 'Name required. Invalid Order!'})
+            response.status_code = 400
+            return response
 
-        # elif price <= 0:
-        #     response = jsonify({"Message": "Price must be greater than zero!"})
-        #     response.status_code = 400
-        #     return response
+        elif price <= 0:
+            response = jsonify({"Message": "Price must be greater than zero!"})
+            response.status_code = 400
+            return response
 
-        # elif quantity <= 0:
-        #     response = jsonify({"Message": "Quantity cannot be less than zero!"})
-        #     response.status_code = 400
-        #     return response
+        elif quantity <= 0:
+            response = jsonify({"Message": "Quantity cannot be less than zero!"})
+            response.status_code = 400
+            return response
 
-        # else:
-        #     #Instanciate the class
-        #     orderObject = Order(name,price,quantity)
+        else:
+            #Instanciate the class
+            orderObject = Order(name,price,quantity)
+            orderObject.place_order()
+            response = jsonify({"Message: ": "Your Order was placed successfully!"})
+            response.status_code = 201
+            return response
 
-        #     orderObject.place_order()
-
-        #     response = jsonify({"Message: ": "Your Order was placed successfully!"})
-        #     response.status_code = 201
-        #     return response
-
-        order = Order(name,price,quantity)
-        order.place_order()
-        response = jsonify({"Message:": "Your Order was placed successfully!"})
-        response.status_code = 201
-        return response
+        # order = Order(name,price,quantity)
+        # order.place_order()
+        # response = jsonify({"Message:": "Your Order was placed successfully!"})
+        # response.status_code = 201
+        # return response
 
     def get(self):
         """
@@ -74,3 +72,9 @@ class OrderResourcesV2(Resource):
         orderObject = Order()
         order_query = orderObject.all_order()
         return order_query
+
+class OrderSpecificResourcesV2(Resource):
+    """
+        Class that holds endpoints to get single order abd update single order
+    """
+    pass

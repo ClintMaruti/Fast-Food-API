@@ -6,6 +6,7 @@ class Config():
     """Base config class"""
     DEBUG = False
     POSTGRES_DATABASE_URI = os.getenv('DATABASE_URL')
+    
    
  
  

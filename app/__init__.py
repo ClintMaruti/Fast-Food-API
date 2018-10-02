@@ -13,16 +13,18 @@ from app.resources.order_resources import Views
 from app.resources.v2.resources.users.orders import OrderResourcesV2
 # from app.resources.v2.resources.users. import ViewsV2
 # from app.resources.v2.resources.views import SpecificOrderV2
-# from app.resources.v2.resources.users.user import User
-# from app.resources.v2.resources.users.user import UserLogin
+from app.resources.v2.resources.users.user import User
+from app.resources.v2.resources.users.user import UserResource
+from app.resources.v2.resources.users.user import UserLogin
 from app.resources.v2.resources.users.menu import MenuResources
 
+#initialize flask app
+app = Flask(__name__)
 
 def create_app(config_name):
     '''Function that creates flask app depending on the configuration passed'''
     
-    #initialize flask app
-    app = Flask(__name__)
+
 
     #initialize api 
     api = Api(app)
@@ -31,7 +33,6 @@ def create_app(config_name):
     #app.config.from_object(app_config[config_name])
     app.url_map.strict_slashes = False
 
- 
     connect()
 
     #register endpoints challenge 2
@@ -45,8 +46,8 @@ def create_app(config_name):
     # api.add_resource(SpecificOrderV2,'/api/v2/orders/')
 
     #register endpoiny for challenge 3 user
-    # api.add_resource(UserResource,'/api/v2/users/')
-    # api.add_resource(UserLogin, '/api/v2/users/')
+    api.add_resource(UserResource,'/api/v2/signup/')
+    api.add_resource(UserLogin, '/api/v2/login/')
     api.add_resource(MenuResources, '/api/v2/menu/')
 
     return app
