@@ -2,14 +2,30 @@ from flask import request, jsonify, json, abort, make_response
 from passlib.apps import custom_app_context as pwd_context
 from flask_restful import Resource, reqparse
 from flask_httpauth import HTTPBasicAuth
-from datetime import datetime
-from flask_jwt_extended import create_access_token
+from datetime import datetime, timedelta
+import jwt
+import os
+from functools import wraps
 
 #import models module
 from ...models.model import User
+from app.resources.v2.resources.endpoints.auth import token_required , key, wraps
+key = os.getenv('SECRET_KEY')
 
+# def token_required(function):
+#     @wraps(function)
+#     def decorated(*args, **kwargs):
+#         token = request.args.get('token')
+#         if not token:
+#             return jsonify({'message' : 'Token is requied'})
 
-auth = HTTPBasicAuth()
+#         try:
+#             data = jwt.decode(token, key)
+#         except:
+#             return jsonify({'Message: ': 'Token is invalid!'})
+
+#         return function(*args, **kwargs)
+#     return decorated
 
 class UserResource(Resource):
     parser = reqparse.RequestParser()
@@ -21,7 +37,7 @@ class UserResource(Resource):
 
 
     def post(self):
-        """from flask_httpauth import HTTPBasicAuth
+        """
             This function adds a user into the database and assigns them a role
         """
         data = UserResource.parser.parse_args()
@@ -59,19 +75,23 @@ class UserLogin(Resource):
 
         username = data['name']
         password = data['password']
-
  
         #initialize User class from Models
-        userObject = User(password,username)
+        userObject = User(username,password)
+        print (userObject)
         response = userObject.login()
-        token = userObject.generate_auth_token()
-        return jsonify ({"Token":token.decode('UTF-8')})
+        if response == True:
+            token = jwt.encode({'user':username, 'exp': datetime.utcnow() + timedelta(minutes=30)},key)  
+            res = "Login Successful!"
+            message = str(token)
+        return jsonify({"Message: ":res, "Token: ": message})
+        
 
 class GetAllUsersResources(Resource):
     """
         This function is responsibe to Get all Users Registered
     """
-    @auth.login_required
+    @token_required
     def get(self):
         """
             This function fetchs all users from the database and returns

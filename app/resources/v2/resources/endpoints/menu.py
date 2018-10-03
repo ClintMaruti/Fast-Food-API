@@ -38,6 +38,4 @@ class MenuResources(Resource):
         response = jsonify({"Message:": "Your menu was placed successfully!"})
         response.status_code = 201
         return response
-
-
-        
+       

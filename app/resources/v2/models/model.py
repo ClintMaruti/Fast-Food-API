@@ -2,8 +2,7 @@ from datetime import datetime, timedelta
 from flask import Flask
 from flask import jsonify, sessions, request
 from passlib.apps import custom_app_context as pwd_context
-from itsdangerous import (TimedJSONWebSignatureSerializer
-                          as Serializer, BadSignature, SignatureExpired)
+                          
 import psycopg2
 
 from db import connect
@@ -90,7 +89,7 @@ class Order(object):
     
 ########### User Section ###########
 class User(object):
-    def __init__(self,password,name, email=None, admin=None, date=None):
+    def __init__(self,name,password,email=None, admin=None, date=None):
         self.name = name
         self.email = email
         self.password = password
@@ -130,19 +129,21 @@ class User(object):
             connection = connect()
             cur = connection.cursor()
             #Exexcute Query
-            cur.execute("SELECT user_name, password FROM users WHERE user_name='{}'".format(self.name))
+            cur.execute("SELECT user_name, password  FROM users WHERE user_name='{}'".format(self.name))
             userobject = cur.fetchone()
-            # print("Message:", self.password, userobject)
+            # print("Message:", userobject, self.password)
             pass_verify = pwd_context.verify(self.password,userobject[1])
             # print(pass_verify)
             if userobject[0] == self.name and pass_verify == True:
-                print("test")
+                # print("test")               
+                response = jsonify({"Message: ": "Login Successful"})
+                response.status_code = 200              
+                return True
+            else:
                 
-                response = jsonify({"Message: ": "Login Successful"})              
-                return response
-            
+                return jsonify({"Message: ": "Invalid Login"}, 400)           
         except (Exception, psycopg2.DatabaseError) as error:
-            
+                       
             return jsonify({"Message: ": str(error)})
 
     def getallUser(self):
@@ -177,23 +178,7 @@ class User(object):
             print(error)
     
 
-    def generate_auth_token(self, expiration = 600):
-        s = Serializer('secretkey', expires_in = expiration)
-        return s.dumps({ 'id': self.name })
-
-    @staticmethod
-    def verify_auth_token(token):
-        s = Serializer('secretkey')
-        try:
-            data = s.loads(token)
-        except SignatureExpired:
-            return None # valid token, but expired
-        except BadSignature:
-            return None # invalid token
-        
-        return jsonify({"Message":"Invalid"})
-
-########### Food Menu ###########
+########### Food Menu ##########################
 class FoodMenu(object):
     """model class For menu"""
     def __init__(self, name=None, price=None, description=None, date=None):

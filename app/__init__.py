@@ -29,7 +29,6 @@ def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(app_config)
     
-    app.config['SECRET-KEY'] = 'secretkey'
 
     #initialize api 
     api = Api(app)
