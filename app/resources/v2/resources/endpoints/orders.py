@@ -4,7 +4,7 @@ from flask_httpauth import HTTPBasicAuth
 
 #import models module
 from ...models.model import Order
-
+from app.resources.v2.resources.endpoints.auth import token_required , key, wraps
 
 auth = HTTPBasicAuth()
 class ViewsV2(Resource):
@@ -59,7 +59,7 @@ class OrderResourcesV2(Resource):
             response.status_code = 201
             return response
 
-    @auth.login_required
+    @token_required
     def get(self):
         """
             Endpoint to fetch all order for food
@@ -77,7 +77,7 @@ class OrderSpecificResourcesV2(Resource):
 
     parser.add_argument("status",type=str,required=True, help='status must be included')
     
-    @auth.login_required
+    @token_required
     def get(self, order_id):
         """
             Endpoint to Get a specific list of order
@@ -88,7 +88,7 @@ class OrderSpecificResourcesV2(Resource):
         response.status_code = 201
         return response
         
-    @auth.login_required
+    @token_required
     def post(self, order_id):
         """
             Endpoint to Update order status
