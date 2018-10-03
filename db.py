@@ -1,11 +1,9 @@
 import os
 import psycopg2
-from config import Config
 import sys
-
-
+from flask import current_app
+from config import app_config
 from tables import queries
-
 
 def connect():
     conn = None
@@ -14,6 +12,7 @@ def connect():
         print("Connecting to the PostgreSQL database...")
         conn = psycopg2.connect(host="localhost", database="alpha", user="machiatto", password="admin@234" )
 
+    
         #create cursor
         cur = conn.cursor()
 

@@ -2,7 +2,7 @@ from flask import request, jsonify, json, abort, make_response
 from passlib.apps import custom_app_context as pwd_context
 from flask_restful import Resource, reqparse
 from flask_httpauth import HTTPBasicAuth
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_jwt_extended import create_access_token
 
 #import models module
@@ -64,8 +64,7 @@ class UserLogin(Resource):
         #initialize User class from Models
         userObject = User(password,username)
         response = userObject.login()
-        token = userObject.generate_auth_token()
-        return jsonify ({"Token":token.decode('UTF-8')})
+        return response
 
 class GetAllUsersResources(Resource):
     """

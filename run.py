@@ -1,5 +1,5 @@
 import os
-
+from config import app_config
 from app import create_app
 
 config = os.getenv('APP_SETTINGS')

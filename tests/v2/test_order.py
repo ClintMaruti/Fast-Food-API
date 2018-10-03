@@ -5,10 +5,11 @@ from app import create_app, connect
 
 class TestDevelopmentConfig(unittest.TestCase):
     def setUp(self):
-        self.app = create_app(config_name="testing")
+        self.app = create_app("testing")
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client()
+        
 
         self.correct_order = {
             "name": "itemtwo",
@@ -24,6 +25,7 @@ class TestDevelopmentConfig(unittest.TestCase):
         }
     def tearDown(self):
         self.api_test_client = None
+        self.app_context.pop()
     
     def test_place_order_into_db(self):
         """
@@ -34,7 +36,7 @@ class TestDevelopmentConfig(unittest.TestCase):
     
     def test_place_order_with_missing_name(self):
         """
-            Test place an order with a missing name
+            Test place an order with a missing nameYour Order was placed successfully!
         """
         res = self.client.post('api/v2/orders/', data=json.dumps(self.name_missing),content_type='application/json')
         self.assertEqual(json.loads(res.data)["Message"],"Name required. Invalid Order!")

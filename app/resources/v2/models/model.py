@@ -4,6 +4,7 @@ from flask import jsonify, sessions, request
 from passlib.apps import custom_app_context as pwd_context
 from itsdangerous import (TimedJSONWebSignatureSerializer
                           as Serializer, BadSignature, SignatureExpired)
+from flask_jwt_extended import create_access_token
 import psycopg2
 
 from db import connect
@@ -21,8 +22,6 @@ class Order(object):
 
     def place_order(self):
         """ Model function to place an order for food """
-        sql = "INSERT INTO orders (name, price,quantity,status) VALUES(%s, %s, %s, %s, %s)", (self.name, self.price, self.quantity,self.date)
-
         try:
 
             connection = connect()
@@ -137,9 +136,10 @@ class User(object):
             # print(pass_verify)
             if userobject[0] == self.name and pass_verify == True:
                 print("test")
-                
-                response = jsonify({"Message: ": "Login Successful"})              
-                return response
+                expires = timedelta(minutes=60)
+                token = create_access_token(identity=self.name, expires_delta=expires )
+                      
+                return jsonify({"Message: ": "Login Succesful"})
             
         except (Exception, psycopg2.DatabaseError) as error:
             

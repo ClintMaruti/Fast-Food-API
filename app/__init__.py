@@ -1,14 +1,17 @@
+import os
 from flask import Flask
 from flask_restful import Api
 #local imports
-from config import app_config
 from db import connect
-import os
+from flask_jwt_extended import JWTManager
+from config import app_config
 
 #challenge 2 imports
 # from app.resources.order_resources import OrderResources
 # from app.resources.order_resources import SpecificOrder
 # from app.resources.order_resources import Views
+
+
 
 #challenge 3 imports
 from app.resources.v2.resources.endpoints.orders import OrderResourcesV2
@@ -26,17 +29,19 @@ def create_app(config_name):
     '''Function that creates flask app depending on the configuration passed'''
     
     #initialize flask app
-    app = Flask(__name__, instance_relative_config=True)
-    app.config.from_object(app_config)
+    app = Flask(__name__)
+    app.config.from_object(config_name)  
     
-    app.config['SECRET-KEY'] = 'secretkey'
-
+    jwt  = JWTManager(app)
     #initialize api 
     api = Api(app)
 
     app.url_map.strict_slashes = False
  
-    connect()
+    
+    
+    with app.app_context():
+        connect()
 
     #register endpoints challenge 2
     # api.add_resource(Views, '/')
