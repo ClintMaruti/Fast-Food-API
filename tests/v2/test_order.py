@@ -3,6 +3,7 @@ import unittest
 import json
 from app import create_app, connect
 
+
 class TestDevelopmentConfig(unittest.TestCase):
     def setUp(self):
         self.app = create_app(config_name="testing")
