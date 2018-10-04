@@ -47,7 +47,7 @@ class Order(object):
                 cur.execute("SELECT * from orders")
                 orders = cur.fetchall()
 
-                return jsonify({"Orders": orders})
+                return orders
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
 
@@ -177,6 +177,20 @@ class User(object):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
     
+    def delete(self,user_id):
+        try:
+            connection = connect()
+            cur = connection.cursor()
+            #Execute query
+            cur.execute("DELETE FROM users WHERE user_id='{}'".format(user_id))
+
+            cur.close()
+            connection.commit()
+
+            response = jsonify({"message": "User succeffuly Deleted"})
+            return response
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
 
 ########### Food Menu ##########################
 class FoodMenu(object):
@@ -215,6 +229,21 @@ class FoodMenu(object):
 
             all = cur.fetchall()
             return all
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+    
+    def delete(self,user_id):
+        try:
+            connection = connect()
+            cur = connection.cursor()
+            #Execute query
+            cur.execute("DELETE FROM menu WHERE menu_id='{}'".format(user_id))
+
+            cur.close()
+            connection.commit()
+
+            response = jsonify({"message": "Menu succeffuly Deleted"})
+            return response
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             

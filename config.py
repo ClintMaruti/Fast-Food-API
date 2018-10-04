@@ -5,7 +5,8 @@ from configparser import ConfigParser
 class Config():
     """Base config class"""
     DEBUG = False
-    SECRET = os.getenv('SECRET_KEY')
+    
+    JWT_SECRET_KEY = os.getenv('SECRET_KEY')
    
 class Development(Config):
     """Configuration for development environment"""

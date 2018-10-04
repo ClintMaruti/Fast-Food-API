@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from flask_restful import Resource, reqparse
 from flask_httpauth import HTTPBasicAuth
+from flask_jwt_extended import (jwt_required, get_jwt_identity, create_access_token)
 
 #import models module
 from ...models.model import FoodMenu
@@ -20,11 +21,19 @@ class MenuResources(Resource):
 
         menuObject = FoodMenu()
         menu_query = menuObject.get_menu()
-        
+        serialized = []
+        if menu_query:
+            for item in menu_query:
+                collect = {
+                    "Menu_ID" : item[0],
+                    "Prices": item[1],
+                    "Description": item[2],
+                       }
+                serialized.append(collect) 
 
-        return jsonify({'Menu': menu_query})
+        return jsonify({'Menu': serialized})
     
-    @auth.login_required
+    @jwt_required
     def post(self):
         """Function to Add a meal option to the menu"""
         data = MenuResources.parser.parse_args()
@@ -38,4 +47,19 @@ class MenuResources(Resource):
         response = jsonify({"Message:": "Your menu was placed successfully!"})
         response.status_code = 201
         return response
+
+class DeleteMenu(Resource):
+    """
+        This class model holds the the function to delte a specific user by Id
+
+    """
+    @jwt_required
+    def delete(self,id):
+        """
+            This function deletes a user from the database
+        """
+        menuObject = FoodMenu()
+        result = menuObject.delete(id)
+        return result
+
        

@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from flask_restful import Resource, reqparse
 from flask_httpauth import HTTPBasicAuth
+from flask_jwt_extended import (jwt_required, get_jwt_identity, create_access_token)
 
 #import models module
 from ...models.model import Order
@@ -59,7 +60,7 @@ class OrderResourcesV2(Resource):
             response.status_code = 201
             return response
 
-    @token_required
+    @jwt_required
     def get(self):
         """
             Endpoint to fetch all order for food
@@ -67,7 +68,19 @@ class OrderResourcesV2(Resource):
         #instanciate class
         orderObject = Order()
         order_query = orderObject.all_order()
-        return order_query
+        order_list = []
+        if order_query:
+            for order in order_query:
+                collect = {
+                    "Order_ID": order[0],
+                    "Name of Food": order[1],
+                    "Price": order[2],
+                    "Quantity": order[3],
+                    "Status": order[4],
+                  
+                                    }
+                order_list.append(collect)
+        return order_list
 
 class OrderSpecificResourcesV2(Resource):
     """
@@ -77,18 +90,16 @@ class OrderSpecificResourcesV2(Resource):
 
     parser.add_argument("status",type=str,required=True, help='status must be included')
     
-    @token_required
+    @jwt_required
     def get(self, order_id):
         """
             Endpoint to Get a specific list of order
         """
         orderObject = Order()
         result = orderObject.order_id(order_id)
-        response = jsonify({"Message: ": "Orders Retrieved","Orders": result})
-        response.status_code = 201
-        return response
+        return result
         
-    @token_required
+    @jwt_required
     def post(self, order_id):
         """
             Endpoint to Update order status
@@ -98,7 +109,6 @@ class OrderSpecificResourcesV2(Resource):
         status = data['status']
 
         orderObject = Order()
-        result = orderObject.order_update(order_id,status)
-        response = jsonify({"Message: ": "Orders Updated Successfully", "Update: ": result})
+        response = jsonify({"Message: ": "Orders Updated Successfully"})
         response.status_code = 201
         return response
