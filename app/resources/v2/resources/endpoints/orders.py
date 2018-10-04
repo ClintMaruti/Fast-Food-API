@@ -107,7 +107,7 @@ class OrderSpecificResourcesV2(Resource):
         return result
         
     @jwt_required
-    def post(self, order_id):
+    def put(self, order_id):
         """
             Endpoint to Update order status
         """

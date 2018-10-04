@@ -5,7 +5,6 @@ from flask_httpauth import HTTPBasicAuth
 from datetime import datetime, timedelta
 import jwt
 from flask_jwt_extended import (jwt_required, get_jwt_identity, create_access_token)
-
 import os
 from functools import wraps
 
@@ -14,6 +13,11 @@ from ...models.model import User
 from app.resources.v2.resources.endpoints.auth import token_required , key, wraps
 from app.resources.v2.resources.endpoints.validate import passwd_check
 key = os.getenv('SECRET_KEY')
+
+class Views(Resource):
+    """Generates an index page for my API"""
+    def get(self):
+        return swagger             
 
 
 class UserResource(Resource):

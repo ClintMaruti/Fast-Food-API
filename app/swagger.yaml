@@ -1,0 +1,388 @@
+---
+swagger: "2.0"
+info:
+  description: "Fast-Food-Fast is a food delivery service app for a restaurant."
+  version: "2.0"
+  title: "Fast  Food Fast API"
+  contact: {}
+host: "127.0.0.1:5000"
+basePath: "/api/v2"
+tags: []
+schemes:
+- "http"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /orders/:
+    get:
+      summary: "Get all Orders"
+      description: "This is endpoint allows a user to Fetch all orders"
+      operationId: "OrdersGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Content-Type"
+        in: "header"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: ""
+      security:
+      - auth: []
+    post:
+      summary: "Place an Order"
+      description: "This endpoint adds an order into the db in the following format:\n\
+        -userID\n-name\n-price\n-quantity\n-status"
+      operationId: "OrdersPost"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/PlaceAnOrderrequest"
+      - name: "Content-Type"
+        in: "header"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: ""
+      security:
+      - auth: []
+  /signup/:
+    post:
+      summary: "Sign Up"
+      description: "This Endpoint registers a User with:\nname: \nemail:\npassword:\n\
+        admin:\n"
+      operationId: "SignupPost"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/SignUprequest"
+      - name: "Content-Type"
+        in: "header"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: ""
+      security:
+      - auth: []
+  /login/:
+    post:
+      summary: "Login"
+      description: "This is endpoint allows a user to Login:\nname:\npassword:"
+      operationId: "LoginPost"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/LoginRequest"
+      - name: "Content-Type"
+        in: "header"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: ""
+      security:
+      - auth: []
+  /menu/:
+    get:
+      summary: "Get all menu"
+      description: "This endpoint Fetchs the entire menu from the db"
+      operationId: "MenuGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Content-Type"
+        in: "header"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: ""
+      security:
+      - auth: []
+    post:
+      summary: "127.0.0.1:5000/api/v2/menu/"
+      description: "This Endpoint inserts a new menu Value"
+      operationId: "MenuPost"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/127.0.0.1:5000~1api~1v2~1menu~1request"
+      - name: "Content-Type"
+        in: "header"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: ""
+      security:
+      - auth: []
+  /orders/1:
+    get:
+      summary: "Get specific Order"
+      description: "This is endpoint allows a user to Fetch all a specific Order"
+      operationId: "Orders1Get"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Content-Type"
+        in: "header"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: ""
+      security:
+      - auth: []
+    put:
+      summary: "Update Order Status"
+      description: "The Endpoint allows a user to Update the status of order by specifying:\n\
+        status: Delivered"
+      operationId: "Orders1Put"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateOrderStatusrequest"
+      - name: "Content-Type"
+        in: "header"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: ""
+      security:
+      - auth: []
+  /users/:
+    get:
+      summary: "Fetch all Users"
+      description: "This is endpoint allows an admin to Fetch all orders"
+      operationId: "UsersGet"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "Content-Type"
+        in: "header"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: ""
+      security:
+      - auth: []
+  /users/1:
+    delete:
+      summary: "127.0.0.1:5000/api/v2/user/ 1"
+      description: "This endpoint deletes a User"
+      operationId: "Users1Delete"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/127.0.0.1:5000~1api~1v2~1menu~1request"
+      - name: "Content-Type"
+        in: "header"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: ""
+      security:
+      - auth: []
+  /menu/1:
+    delete:
+      summary: "127.0.0.1:5000/api/v2/menu/ 1"
+      description: "This endpoint deletes a Menu"
+      operationId: "Menu1Delete"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/127.0.0.1:5000~1api~1v2~1menu~1request"
+      - name: "Content-Type"
+        in: "header"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: ""
+      security:
+      - auth: []
+securityDefinitions:
+  auth:
+    type: "oauth2"
+    authorizationUrl: "http://127.0.0.1:5000/api/v2"
+    flow: "implicit"
+    scopes: {}
+definitions:
+  PlaceAnOrderrequest:
+    type: "object"
+    required:
+    - "name"
+    - "price"
+    - "quantity"
+    - "status"
+    - "userID"
+    properties:
+      userID:
+        type: "integer"
+        format: "int32"
+        example: 2
+        description: ""
+      name:
+        type: "string"
+        example: "Injera"
+        description: ""
+      price:
+        type: "integer"
+        format: "int32"
+        example: 500
+        description: ""
+      quantity:
+        type: "integer"
+        format: "int32"
+        example: 5
+        description: ""
+      status:
+        type: "string"
+        example: "Pending"
+        description: ""
+    title: "Place an OrderRequest"
+    example:
+      userID: 2
+      name: "Injera"
+      price: 500
+      quantity: 5
+      status: "Pending"
+  SignUprequest:
+    type: "object"
+    required:
+    - "admin"
+    - "email"
+    - "name"
+    - "password"
+    properties:
+      name:
+        type: "string"
+        example: "Andela"
+        description: ""
+      email:
+        type: "string"
+        example: "info@andela.com"
+        description: ""
+      password:
+        type: "string"
+        example: "And@123"
+        description: ""
+      admin:
+        type: "string"
+        example: "true"
+        description: ""
+    title: "Sign UpRequest"
+    example:
+      name: "Andela"
+      email: "info@andela.com"
+      password: "And@123"
+      admin: true
+  LoginRequest:
+    type: "object"
+    required:
+    - "name"
+    - "password"
+    properties:
+      name:
+        type: "string"
+        example: "Morris"
+        description: ""
+      password:
+        type: "string"
+        example: "And@13"
+        description: ""
+    title: "Login Request"
+    example:
+      name: "Morris"
+      password: "And@13"
+  UpdateOrderStatusrequest:
+    type: "object"
+    required:
+    - "status"
+    properties:
+      status:
+        type: "string"
+        example: "Active"
+        description: ""
+    title: "Update Order Status Request"
+    example:
+      status: "Active"
+  127.0.0.1:5000/api/v2/menu/request:
+    type: "object"
+    required:
+    - "description"
+    - "name"
+    - "price"
+    properties:
+      name:
+        type: "string"
+        example: "Chicken Tikka"
+        description: ""
+      price:
+        type: "integer"
+        format: "int32"
+        example: 500
+        description: ""
+      description:
+        type: "string"
+        example: "This is a description"
+        description: ""
+    title: "Get Menu Request"
+    example:
+      name: "Chicken Tikka"
+      price: 500
+      description: "This is a description"

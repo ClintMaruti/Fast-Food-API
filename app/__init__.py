@@ -10,7 +10,6 @@ from flask_jwt_extended import JWTManager
 
 #challenge 3 imports
 from app.resources.v2.resources.endpoints.orders import OrderResourcesV2
-
 from app.resources.v2.resources.endpoints.orders import OrderSpecificResourcesV2
 from app.resources.v2.resources.endpoints.orders import UserOrder
 from app.resources.v2.resources.endpoints.user import User
