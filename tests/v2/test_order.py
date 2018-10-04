@@ -5,8 +5,9 @@ from app import create_app, connect
 from .test_auth import create_admin_token
 from tests.base import BaseTestCase
 
-class TestDevelopmentConfig(unittest.TestCase):
+class TestDevelopmentConfig(BaseTestCase):
 
+    
     def test_place_order_into_db(self):
         """
             Test place order when everything is okay
