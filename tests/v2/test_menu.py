@@ -74,7 +74,7 @@ class TestDevelopmentConfig(BaseTestCase):
         """
         res = self.client.post(
             '/api/v2/menu/',
-            data=json.dumps(self.menu_with_invalid_description),
+            data=json.dumps(self.menu_with_invalid_description)
             content_type='application/json',
             headers={'Authorization': 'Bearer ' + self.admin_token}
         )
