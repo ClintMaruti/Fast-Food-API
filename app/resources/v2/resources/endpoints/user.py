@@ -72,7 +72,6 @@ class UserLogin(Resource):
  
         #initialize User class from Models
         userObject = User(username,password)
-        print (userObject)
         response = userObject.login()
         if response == True:
             # token = jwt.encode({'user':username, 'exp': datetime.utcnow() + timedelta(minutes=30)},key)
@@ -80,8 +79,8 @@ class UserLogin(Resource):
             token = create_access_token(identity=username, expires_delta=expires)
             res = "Login Successful!"
             message = str(token)
-        return jsonify({"Message: ":res, "Token: ": message})
-        
+            return jsonify({"Message: ":res, "Token: ": message})
+        return jsonify({"Message: ": "Invalid Login!"})
 
 class GetAllUsersResources(Resource):
     """

@@ -135,7 +135,7 @@ class User(object):
             pass_verify = pwd_context.verify(self.password,userobject[1])
             # print(pass_verify)
             if userobject[0] == self.name and pass_verify == True:
-                # print("test")               
+                print("test")               
                 response = jsonify({"Message: ": "Login Successful"})
                 response.status_code = 200              
                 return True

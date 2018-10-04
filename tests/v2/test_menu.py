@@ -11,12 +11,11 @@ class TestDevelopmentConfig(unittest.TestCase):
         self.app_context.push()
         self.client = self.app.test_client()
 
-        self.correct_order = {
-            "name": "itemtwo",
+        self.correct_menu = {
+            "name": "Burger Tuple",
             "price": 800,
-            "quantity": 5,
-            "status" : "Delivered"
-        }
+            "decription": "This is a burger Tuples",
+                    }
         self.name_missing = {
             "name": "",
             "price": 800,
