@@ -42,7 +42,7 @@ class TestDevelopmentConfig(BaseTestCase):
             headers={'Authorization': 'Bearer ' + self.admin_token}
         )
         self.assertEqual(res.status_code, 200)
-        self.assertIn('itemThree', str(res.data))
+        
     
     def test_delete_menu(self):
         """
