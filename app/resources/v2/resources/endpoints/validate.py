@@ -1,3 +1,5 @@
+import re
+
 def passwd_check(passwd):
     """Check if the password is valid.
 

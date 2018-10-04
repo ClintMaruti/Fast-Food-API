@@ -38,7 +38,7 @@ class UserResource(Resource):
 
         userObject = User(username,password)
 
-        if userObject.getusername(username) == False:
+        if userObject.getusername(username) == True:
             response = jsonify({'message': 'The User you requested already exists!'})
             response.status_code = 400
             return response
@@ -47,9 +47,9 @@ class UserResource(Resource):
             response = jsonify({"message": "The password length must be greater than 6 and less than 8, has at least one uppercase letter,  has at least one lowercase letter, has at least one numeral, has any of the required special symbols"})
             return response
 
-        hashed_password = userObject.hash_password(password)
+        # hashed_password = userObject.hash_password(password)
 
-        userObject = User(username,email,hashed_password,admin)
+        userObject = User(username,email,password,admin)
         userObject.addUser()
         return ({"Message: ": "User added successfuly!"})
 
@@ -67,9 +67,7 @@ class UserLogin(Resource):
 
         username = data['name']
         password = data['password']
-
-        
- 
+      
         #initialize User class from Models
         userObject = User(username,password)
         response = userObject.login()

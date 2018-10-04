@@ -125,8 +125,10 @@ class User(object):
             cur = connection.cursor()
             #Execute query
             cur.execute("SELECT user_name FROM users WHERE user_name='{}'".format(username))
-            userobject = cur.fetchone()
-            if not userobject:
+            userName= cur.fetchone()
+            print (userName[0])
+            print(username)
+            if userName[0] == str(username):
                 return True
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -141,19 +143,12 @@ class User(object):
             connection = connect()
             cur = connection.cursor()
             #Exexcute Query
-            cur.execute("SELECT user_name, password  FROM users WHERE user_name='{}'".format(self.name))
+            cur.execute("SELECT user_name,email, password  FROM users WHERE user_name='{}'".format(self.name))
             userobject = cur.fetchone()
-            print("Message:", userobject, self.password)
-
-            pass_verify = pwd_context.verify(self.password,userobject[1])
-            print(pass_verify)
-            if userobject[0] == self.name and pass_verify == True:
-                # print("test")               
-                response = jsonify({"Message: ": "Login Successful"})
-                response.status_code = 200              
+            if userobject[0] == self.name and userobject[1] == self.password:
+                # print(self.password, userobject[1])          
                 return True
-            else:
-                
+            else:                
                 return jsonify({"Message: ": "Invalid Login"}, 400)           
         except (Exception, psycopg2.DatabaseError) as error:
                        
