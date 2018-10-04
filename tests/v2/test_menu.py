@@ -22,7 +22,7 @@ class TestDevelopmentConfig(BaseTestCase):
     
     def test_create_menu_with_empty_name(self):
         """
-            Test create correct menu with Empty name
+            Test create correct menu with empty name
         """
         res = self.client.post(
             '/api/v2/menu/',
