@@ -116,7 +116,7 @@ class OrderSpecificResourcesV2(Resource):
         status = data['status']
 
         orderObject = Order()
-        orderObject.order_update()
+        orderObject.order_update(order_id,status)
         response = jsonify({"Message: ": "Orders Updated Successfully"})
         response.status_code = 201
         return response

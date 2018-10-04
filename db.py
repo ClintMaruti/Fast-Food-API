@@ -3,9 +3,7 @@ import psycopg2
 from config import Config
 from flask import current_app
 
-
 from tables import queries
-
 
 def connect():
     conn = None
@@ -38,8 +36,6 @@ def connect():
             print('Database connected Successfully.')
             print('Tables Created Successfuly.')
     return conn
-
-
 
 if __name__ == '__main__':
     connect()

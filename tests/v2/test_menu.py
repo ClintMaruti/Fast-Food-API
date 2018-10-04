@@ -12,7 +12,12 @@ class TestDevelopmentConfig(BaseTestCase):
         """
             Test create correct menu
         """
-        res = self.client.post('api/v2/menu/', data=json.dumps(self.correct_menu),content_type='application/json',  headers={'Authorization': 'Bearer ' + self.admin_token})
+        res = self.client.post(
+            'api/v2/menu/',
+            data=json.dumps(self.correct_menu),
+            content_type='application/json',
+            headers={'Authorization': 'Bearer ' + self.admin_token}
+        )
         self.assertIn('Description cannot be left Blank!', str(res.data))
         
     

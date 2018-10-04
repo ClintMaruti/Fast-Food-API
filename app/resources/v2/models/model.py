@@ -76,7 +76,7 @@ class Order(object):
             connection = connect()
             cur = connection.cursor()
 
-            cur.execute(sql)
+            cur.execute("UPDATE orders SET status='{}' WHERE order_id = '{}'".format(status,order_id))
 
             cur.close()
             # commit the changes
@@ -200,7 +200,7 @@ class User(object):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
 
-########### Food Menu ##########################
+############# Food Menu ##########################
 class FoodMenu(object):
     """model class For menu"""
     def __init__(self, name=None, price=None, description=None, date=None):
@@ -218,7 +218,6 @@ class FoodMenu(object):
             cur = connection.cursor()
             #Execute query
             cur.execute('INSERT INTO menu (name,price,description,date) VALUES(%s,%s, %s, %s)', (self.name, self.price, self.description, self.date))
-
             cur.close()
             connection.commit()
 
