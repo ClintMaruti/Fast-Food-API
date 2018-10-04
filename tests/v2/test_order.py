@@ -47,4 +47,9 @@ class TestDevelopmentConfig(BaseTestCase):
         res2 = self.client.get('api/v2/orders/', content_type='application/json', headers={'Authorization': 'Bearer ' + self.admin_token} )
         self.assertEqual(res2.status_code, 200)
     
-     
+    def test_update_a_specific_order(self):
+        """
+            Test update an order status
+        """
+        res = self.client.put('/api/v2/orders/1', data=json.dumps(self.order_update), content_type='application/json', headers={'Authorization': 'Bearer ' + self.admin_token})
+        self.assertEqual(res.status_code, 405)

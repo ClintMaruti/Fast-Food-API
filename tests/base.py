@@ -12,7 +12,17 @@ class BaseTestCase(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         self.client = self.app.test_client()
-
+        
+        self.userRegistration = {
+            "name": "Kate",
+            "email": "kate@andela.com",
+            "password":"Kat@123",
+            "admin": "True",
+        } 
+        self.userLogin = {
+            "name":"Kate",
+            "password":"Kat@123"
+        }
         self.correct_menu = {
             "name": "Burger Tuple",
             "price": 800,
@@ -56,6 +66,9 @@ class BaseTestCase(unittest.TestCase):
             "name":"Chicken Tikka",
             "price":500,
             "description":""                                     
+        }
+        self.order_update= {
+            "status":"Active"
         }      
         self.admin_token = create_admin_token()
 
