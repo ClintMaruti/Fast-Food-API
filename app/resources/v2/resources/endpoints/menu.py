@@ -40,16 +40,31 @@ class MenuResources(Resource):
         price = data['price']
         description = data['description']
 
-        menu = FoodMenu(name,price,description)
-        menu.insert_menu()
-        response = jsonify({"Message:": "Your menu was placed successfully!"})
-        response.status_code = 201
-        return response
+        if name == "":
+            response = jsonify({"Message": 'Name of food required. Invalid Order!'})
+            response.status_code = 400
+            return response
 
+        elif price <= 0:
+            response = jsonify({"Message": "Price must be greater than zero!"})
+            response.status_code = 400
+            return response
+        
+        elif description == "":
+            response = jsonify({"Message": "Description must not be left Blank"})
+            response.status_code = 400
+            return response
+
+        else:
+            menu = FoodMenu(name,price,description)
+            menu.insert_menu()
+            response = jsonify({"Message:": "Your menu was placed successfully!"})
+            response.status_code = 201
+            return response
+            
 class DeleteMenu(Resource):
     """
         This class model holds the the function to delte a specific user by Id
-
     """
     @jwt_required
     def delete(self,id):
@@ -59,5 +74,4 @@ class DeleteMenu(Resource):
         menuObject = FoodMenu()
         result = menuObject.delete(id)
         return result
-
-       
+      

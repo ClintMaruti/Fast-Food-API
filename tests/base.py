@@ -46,7 +46,17 @@ class BaseTestCase(unittest.TestCase):
             "quantity": -5,
             "status" : "Delivered"
         }
-      
+        self.menu_with_invalid_price= {
+            "name":"Chicken Tikka",
+            "price":-8,
+            "description":"This is the desription"                                     
+        }
+        
+        self.menu_with_invalid_description= {
+            "name":"Chicken Tikka",
+            "price":500,
+            "description":""                                     
+        }      
         self.admin_token = create_admin_token()
 
     def tearDown(self):
