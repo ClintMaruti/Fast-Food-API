@@ -3,47 +3,10 @@ import unittest
 import json
 from app import create_app, connect
 from .test_auth import create_admin_token
+from tests.base import BaseTestCase
 
 class TestDevelopmentConfig(unittest.TestCase):
-    def setUp(self):
-        self.app = create_app(config_name="testing")
-        self.app_context = self.app.app_context()
-        self.app_context.push()
-        self.client = self.app.test_client()
 
-        self.correct_order = {
-            "userID":3,
-            "name": "itemtwo",
-            "price": 800,
-            "quantity": 5,
-            "status" : "Delivered"
-        }
-        self.name_missing = {
-            "userID":3,
-            "name": "",
-            "price": 800,
-            "quantity": 5,
-            "status" : "Delivered"
-        }
-        self.price_below_zero = {
-            "userID":3,
-            "name": "Chicken Tikka",
-            "price": -4,
-            "quantity": 5,
-            "status" : "Delivered"
-        }
-        self.quantity_below_zero = {
-            "userID":3,
-            "name": "Chicken Tikka",
-            "price": 800,
-            "quantity": -5,
-            "status" : "Delivered"
-        }
-        self.admin_token = create_admin_token()
-
-    def tearDown(self):
-        self.api_test_client = None
-    
     def test_place_order_into_db(self):
         """
             Test place order when everything is okay
