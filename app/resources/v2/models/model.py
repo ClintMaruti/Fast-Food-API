@@ -9,8 +9,9 @@ from db import connect
 
 class Order(object):
     """This class defines the Order Models"""
-    def __init__(self, name=None, price=None, quantity=None,status = None,date=None):
+    def __init__(self,user_id=None, name=None, price=None, quantity=None,status = None,date=None):
         """ A method constructor to define Order"""
+        self.user_id = user_id
         self.name = name
         self.price = price
         self.quantity = quantity
@@ -27,7 +28,7 @@ class Order(object):
             connection = connect()
             cur = connection.cursor()
             #Execute query
-            cur.execute('INSERT INTO orders (name,price,quantity,status,date) VALUES(%s,%s, %s, %s, %s)', (self.name, self.price, self.quantity, self.status, self.date))
+            cur.execute('INSERT INTO orders (user_id,name,price,quantity,status,date) VALUES(%s,%s, %s, %s, %s,%s)', (self.user_id, self.name, self.price, self.quantity, self.status, self.date))
             # close communication with the PostgreSQL database server
             cur.close()
             # commit the changes
@@ -87,9 +88,23 @@ class Order(object):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
     
+    def order_history(self, user_id):
+        """Model Function to get user order history"""
+        try:
+            connection = connect()
+            cur = connection.cursor()
+
+            cur.execute("SELECT order_id, name, price, quantity, status date FROM orders WHERE user_id='{}'".format(user_id))
+            user_history = cur.fetchone()
+            print(user_history)
+            return user_history
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+
 ########### User Section ###########
 class User(object):
-    def __init__(self,name,password,email=None, admin=None, date=None):
+
+    def __init__(self,name,password,email=None,admin=None, date=None):
         self.name = name
         self.email = email
         self.password = password
@@ -101,9 +116,6 @@ class User(object):
         hashlized = self.password_hash = pwd_context.encrypt(password)
         return hashlized
 
-    def verify_password(self, password):
-        return pwd_context.verify(password, self.password_hash)
-    
     def getusername(self, username):
         """
             Fetchs userobject by name from the database
@@ -131,11 +143,12 @@ class User(object):
             #Exexcute Query
             cur.execute("SELECT user_name, password  FROM users WHERE user_name='{}'".format(self.name))
             userobject = cur.fetchone()
-            # print("Message:", userobject, self.password)
+            print("Message:", userobject, self.password)
+
             pass_verify = pwd_context.verify(self.password,userobject[1])
-            # print(pass_verify)
+            print(pass_verify)
             if userobject[0] == self.name and pass_verify == True:
-                print("test")               
+                # print("test")               
                 response = jsonify({"Message: ": "Login Successful"})
                 response.status_code = 200              
                 return True

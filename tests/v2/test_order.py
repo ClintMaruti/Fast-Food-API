@@ -12,24 +12,28 @@ class TestDevelopmentConfig(unittest.TestCase):
         self.client = self.app.test_client()
 
         self.correct_order = {
+            "userID":3,
             "name": "itemtwo",
             "price": 800,
             "quantity": 5,
             "status" : "Delivered"
         }
         self.name_missing = {
+            "userID":3,
             "name": "",
             "price": 800,
             "quantity": 5,
             "status" : "Delivered"
         }
         self.price_below_zero = {
+            "userID":3,
             "name": "Chicken Tikka",
             "price": -4,
             "quantity": 5,
             "status" : "Delivered"
         }
         self.quantity_below_zero = {
+            "userID":3,
             "name": "Chicken Tikka",
             "price": 800,
             "quantity": -5,

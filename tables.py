@@ -1,6 +1,7 @@
 
 tb1 =  """ CREATE TABLE IF NOT EXISTS orders(
             order_id serial PRIMARY KEY,
+            user_id REAL NOT NULL,
             name VARCHAR NOT NULL,
             price REAL NOT NULL,
             quantity REAL NOT NULL,

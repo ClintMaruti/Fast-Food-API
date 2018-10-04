@@ -18,6 +18,7 @@ def connect():
         #create cursor
         cur = conn.cursor()
 
+        # cur.execute('DROP TABLE users')
         # create tables 
         for query in queries:
             cur.execute(query)

@@ -1,12 +1,10 @@
 from flask import request, jsonify
 from flask_restful import Resource, reqparse
-from flask_httpauth import HTTPBasicAuth
 from flask_jwt_extended import (jwt_required, get_jwt_identity, create_access_token)
 
 #import models module
 from ...models.model import FoodMenu
 
-auth = HTTPBasicAuth()
 
 class MenuResources(Resource):
     """Flask restful class that hold the routes function for the Menu Endpoints"""

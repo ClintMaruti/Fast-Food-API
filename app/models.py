@@ -18,12 +18,12 @@ class Orders(object):
 
   def insert_order(self, name, price, quantity):
     """ Model function to Insert a new Order int list """
-    self.bucketlist = {}
+    self.orderlist = {}
 
-    self.bucketlist['name'] = name
-    self.bucketlist['price'] = price
-    self.bucketlist['quantity'] = quantity
-    self.bucketlist['order_id'] = self.id
+    self.orderlist['name'] = name
+    self.orderlist['price'] = price
+    self.orderlist['quantity'] = quantity
+    self.orderlist['order_id'] = self.id
     orders.append(self.bucketlist)
     return orders[-1]
   

@@ -21,6 +21,7 @@ class OrderResourcesV2(Resource):
     parser = reqparse.RequestParser()
 
     parser.add_argument("name",type=str,required=True, help="Name cannot be blank!")
+    parser.add_argument("userID",type=int,required=True, help="User ID can only be a number")
     parser.add_argument("price",type=int,required=True, help='Price cannot be below zero')
     parser.add_argument("status",type=str,required=True, help='status must be included')
     parser.add_argument("quantity",type=int,required=True, help="Quantity cannot be below zero")
@@ -32,7 +33,8 @@ class OrderResourcesV2(Resource):
         """
         data = OrderResourcesV2.parser.parse_args()
 
-        name = data['name']
+        userId = data['userID']
+        name = data['name']       
         price = data['price']
         status = data['status']
         quantity = data['quantity']
@@ -46,6 +48,11 @@ class OrderResourcesV2(Resource):
             response = jsonify({"Message": "Price must be greater than zero!"})
             response.status_code = 400
             return response
+        
+        elif userId <= 0:
+            response = jsonify({"Message": "Invalide User ID!"})
+            response.status_code = 400
+            return response
 
         elif quantity <= 0:
             response = jsonify({"Message": "Quantity cannot be less than zero!"})
@@ -54,13 +61,13 @@ class OrderResourcesV2(Resource):
 
         else:
             #Instanciate the class
-            orderObject = Order(name,price,quantity,status)
+            orderObject = Order(userId,name,price,quantity,status)
             orderObject.place_order()
             response = jsonify({"Message: ": "Your Order was placed successfully!"})
             response.status_code = 201
             return response
 
-    @jwt_required
+    
     def get(self):
         """
             Endpoint to fetch all order for food
@@ -109,6 +116,18 @@ class OrderSpecificResourcesV2(Resource):
         status = data['status']
 
         orderObject = Order()
+        orderObject.order_update()
         response = jsonify({"Message: ": "Orders Updated Successfully"})
         response.status_code = 201
         return response
+
+class UserOrder(Resource):
+    """
+        Class Resource for fetch user order history
+    """
+    def get(self, user_id):
+        """route for fetch order history"""
+        orderObject = Order()
+        result = orderObject.order_history(user_id)
+        return result
+
