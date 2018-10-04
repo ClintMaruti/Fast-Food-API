@@ -47,9 +47,9 @@ class UserResource(Resource):
             response = jsonify({"message": "The password length must be greater than 6 and less than 8, has at least one uppercase letter,  has at least one lowercase letter, has at least one numeral, has any of the required special symbols"})
             return response
 
-        hashed_password = userObject.hash_password(password)
+        # hashed_password = userObject.hash_password(password)
 
-        userObject = User(username,email,hashed_password,admin)
+        userObject = User(username,email,password,admin)
         userObject.addUser()
         return ({"Message: ": "User added successfuly!"})
 
@@ -79,8 +79,8 @@ class UserLogin(Resource):
             token = create_access_token(identity=username, expires_delta=expires)
             res = "Login Successful!"
             message = str(token)
-            return jsonify({"Message: ":res, "Token: ": message})
-        return jsonify({"Message: ": "Invalid Login!"})
+        return jsonify({"Message: ":res, "Token: ": message})
+        
 
 class GetAllUsersResources(Resource):
     """
