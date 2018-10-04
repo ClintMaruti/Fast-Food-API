@@ -18,6 +18,7 @@ from app.resources.v2.resources.endpoints.user import UserResource
 from app.resources.v2.resources.endpoints.user import UserLogin
 from app.resources.v2.resources.endpoints.user import DeleteUser
 from app.resources.v2.resources.endpoints.menu import MenuResources
+from app.resources.v2.resources.endpoints.menu import DeleteMenu
 from app.resources.v2.resources.endpoints.user import GetAllUsersResources
 
 
@@ -49,6 +50,7 @@ def create_app(config_name):
     api.add_resource(DeleteUser, '/api/v2/users/<int:id>')
     api.add_resource(UserLogin, '/api/v2/login/')
     api.add_resource(MenuResources, '/api/v2/menu/')
+    api.add_resource(DeleteMenu, '/api/v2/menu/<int:id>')
     
 
     
