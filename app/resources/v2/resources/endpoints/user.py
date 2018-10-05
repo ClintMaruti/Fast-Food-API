@@ -14,13 +14,7 @@ from ...models.model import User
 from app.resources.v2.resources.endpoints.auth import token_required , key, wraps
 from app.resources.v2.resources.endpoints.validate import passwd_check
 key = os.getenv('SECRET_KEY')
-
-class Views(Resource):
-    """Generates an index page for my API"""
-    def get(self):
-        return swagger             
-
-
+          
 class UserResource(Resource):
     parser = reqparse.RequestParser()
 
