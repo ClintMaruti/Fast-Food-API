@@ -28,9 +28,8 @@ class MenuResources(Resource):
                     "Description": item[2],
                        }
                 serialized.append(collect) 
-
-        return jsonify({'Menu': serialized})
-    
+            return jsonify({'Menu': serialized})
+        
     @jwt_required
     def post(self):
         """Function to Add a meal option to the menu"""
