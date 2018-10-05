@@ -28,7 +28,8 @@ def create_app(config_name):
     #initialize flask app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(app_config)
-    
+    with app.app_context():
+        connect()
     jwt=JWTManager(app)
     app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
 

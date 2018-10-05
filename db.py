@@ -11,7 +11,7 @@ def connect():
 
         print("Connecting to the PostgreSQL database...")
         DATABASE = os.getenv('DATABASE_URL')
-        conn = psycopg2.connect(DATABASE)
+        conn = psycopg2.connect(host="localhost", database="alpha", user="machiatto", password="admin@234" )
 
         #create cursor
         cur = conn.cursor()
@@ -31,6 +31,7 @@ def connect():
 
     except (Exception, psycopg2.DatabaseError) as error:
         response = jsonify({"Database Error":error})
+        return response
     finally:
         if conn is not None:
             print('Database connected Successfully.')
