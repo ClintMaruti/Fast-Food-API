@@ -1,7 +1,7 @@
 import os
 import psycopg2
 from config import Config
-from flask import current_app
+from flask import current_app, jsonify
 
 from tables import queries
 
@@ -30,7 +30,7 @@ def connect():
         conn.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+        response = jsonify({"Database Error":error})
     finally:
         if conn is not None:
             print('Database connected Successfully.')

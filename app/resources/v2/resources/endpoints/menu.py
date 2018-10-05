@@ -73,4 +73,3 @@ class DeleteMenu(Resource):
         menuObject = FoodMenu()
         result = menuObject.delete(id)
         return result
-      

@@ -80,6 +80,3 @@ class TestDevelopmentConfig(BaseTestCase):
         )
         self.assertIn('Description must not be left Blank', str(res.data))
         self.assertEqual(res.status_code, 400)
-        
-        
-    

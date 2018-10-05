@@ -36,9 +36,9 @@ class Order(object):
             response = jsonify({"Message": "Order Updated Successfully"})
             return response
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            response = jsonify({"Message": str(error)})
+            return response
     
-
     def all_order(self):
         """This function fetchs all orders"""
         try:
@@ -50,7 +50,8 @@ class Order(object):
 
                 return orders
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            response = jsonify({"Message": str(error)})
+            return response
 
 
     def order_id(self,id):
@@ -64,7 +65,8 @@ class Order(object):
             # print(order_by_ID)
             return order_by_ID       
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            response = jsonify({"Message": str(error)})
+            return response
     
     def order_update(self,order_id,status):
         """ Model function to Update a specific order list """
@@ -86,7 +88,8 @@ class Order(object):
             return orderUpdate
     
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            response = jsonify({"Message": str(error)})
+            return response
     
     def order_history(self, user_id):
         """Model Function to get user order history"""
@@ -99,7 +102,8 @@ class Order(object):
             print(user_history)
             return user_history
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            response = jsonify({"Message": str(error)})
+            return response
 
 ########### User Section ###########
 class User(object):
@@ -134,7 +138,6 @@ class User(object):
             print(error)
             return False
 
- 
     def login(self):
         """
             This function verifies the user name and password for successful Login
@@ -150,8 +153,7 @@ class User(object):
                 return True
             else:                
                 return jsonify({"Message: ": "Invalid Login"}, 400)           
-        except (Exception, psycopg2.DatabaseError) as error:
-                       
+        except (Exception, psycopg2.DatabaseError) as error:                       
             return jsonify({"Message: ": str(error)})
 
     def getallUser(self):
@@ -166,9 +168,9 @@ class User(object):
             all = cur.fetchall()
             return all
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            response = jsonify({"Message": str(error)})
+            return response
     
-
     def addUser(self):
         """Adds a new user into the db"""    
         try:
@@ -183,7 +185,8 @@ class User(object):
             response = jsonify({"message": "User succeffuly added"})
             return response
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            response = jsonify({"Message": str(error)})
+            return response
     
     def delete(self,user_id):
         try:
@@ -198,7 +201,8 @@ class User(object):
             response = jsonify({"message": "User succeffuly Deleted"})
             return response
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            response = jsonify({"Message": str(error)})
+            return response
 
 ############# Food Menu ##########################
 class FoodMenu(object):
@@ -224,7 +228,8 @@ class FoodMenu(object):
             response = jsonify({"Message": "Menu Updated Successfully!"})
             return response
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            response = jsonify({"Message": str(error)})
+            return response
 
     def get_menu(self):
         """Method That fetches the menu from the database"""
@@ -237,7 +242,8 @@ class FoodMenu(object):
             all = cur.fetchall()
             return all
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            response = jsonify({"Message": str(error)})
+            return response
     
     def delete(self,user_id):
         try:
@@ -252,5 +258,6 @@ class FoodMenu(object):
             response = jsonify({"message": "Menu succeffuly Deleted"})
             return response
         except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
+            response = jsonify({"Message": str(error)})
+            return response
             

@@ -7,6 +7,7 @@ import jwt
 from flask_jwt_extended import (jwt_required, get_jwt_identity, create_access_token)
 import os
 from functools import wraps
+from email_validator import validate_email, EmailNotValidError
 
 #import models module
 from ...models.model import User
@@ -28,7 +29,6 @@ class UserResource(Resource):
     parser.add_argument("admin", type=bool, required=True, help="Role cannot be left blank")
     parser.add_argument("password", type=str, required=True, help="Password canot be left blank")
 
-
     def post(self):
         """
             This function adds a user into the database and assigns them a role
@@ -39,6 +39,14 @@ class UserResource(Resource):
         email = data['email']
         admin = data['admin']
         password = data['password']
+
+        try:
+            email_validation = validate_email(email)
+            email = email_validation["email"]
+        except EmailNotValidError as error:
+            response = jsonify({'Invalid Email': str(error)})
+            response.status_code = 500
+            return response
 
         userObject = User(username,password)
 
