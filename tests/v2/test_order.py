@@ -52,4 +52,4 @@ class TestDevelopmentConfig(BaseTestCase):
             Test update an order status
         """
         res = self.client.put('/api/v2/orders/1', data=json.dumps(self.order_update), content_type='application/json', headers={'Authorization': 'Bearer ' + self.admin_token})
-        self.assertEqual(res.status_code, 405)
+        self.assertEqual(res.status_code, 201)
