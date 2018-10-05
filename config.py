@@ -22,7 +22,6 @@ class Production(Config):
     """Configuration for production environment"""
     DEBUG = False
 
-
 app_config = {
     'development': Development,
     'testing': Testing,
