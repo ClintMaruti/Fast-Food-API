@@ -10,8 +10,8 @@ def connect():
     try:
 
         print("Connecting to the PostgreSQL database...")
-        # DATABASE = os.getenv('DATABASE_URL')
-        conn = psycopg2.connect("dbname=test user=postgres password=admin234")
+        DATABASE = os.getenv('DATABASE_URL')
+        conn = psycopg2.connect(dbname="alpha", user="postgres", password="secret")
 
         #create cursor
         cur = conn.cursor()
