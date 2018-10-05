@@ -8,7 +8,7 @@ app = create_app(config)
 
 
 
-@app.route('/')
+@app.route('https://fast-food-fast-api-v1.herokuapp.com/')
 def hello_world():
     return render_template('index.html')
 
