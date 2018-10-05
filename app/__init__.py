@@ -30,6 +30,7 @@ def create_app(config_name):
     app.config.from_object(app_config)
     with app.app_context():
         connect()
+        
     jwt=JWTManager(app)
     app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
 
